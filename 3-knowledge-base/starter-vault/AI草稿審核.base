@@ -1,0 +1,71 @@
+filters:
+  and:
+    - file.inFolder("cards")
+    - file.ext == "md"
+formulas:
+  齡: (now() - date(created)).days.round(0)
+properties:
+  type:
+    displayName: 類型
+  themes:
+    displayName: 主題
+  maturity:
+    displayName: 成熟度
+  ip:
+    displayName: IP
+  created:
+    displayName: 建立日
+  file.folder:
+    displayName: 資料夾
+  formula.齡:
+    displayName: 天數
+views:
+  - type: table
+    name: 待審 ai-draft
+    filters:
+      and:
+        - file.hasTag("ai-draft")
+    groupBy:
+      property: file.folder
+      direction: ASC
+    order:
+      - file.name
+      - type
+      - themes
+      - ip
+      - created
+      - formula.齡
+    sort:
+      - property: formula.齡
+        direction: ASC
+      - property: created
+        direction: ASC
+    columnSize:
+      file.name: 562
+      note.type: 77
+      note.themes: 259
+      note.ip: 121
+  - type: table
+    name: 待補文獻 needs_evidence
+    filters:
+      and:
+        - needs_evidence == true
+    order:
+      - file.name
+      - type
+      - themes
+      - maturity
+      - file.folder
+  - type: table
+    name: 已審核（非草稿）
+    filters:
+      not:
+        - file.hasTag("ai-draft")
+    groupBy:
+      property: maturity
+      direction: ASC
+    order:
+      - file.name
+      - type
+      - themes
+      - maturity

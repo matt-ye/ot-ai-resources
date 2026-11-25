@@ -1,0 +1,24 @@
+{
+  "_說明": "和職能治療完全不同主題的範例：自閉症兒童。用來示範換題目時，只需要改 topics 的查詢句和 rubric 的判準。",
+  "days_window": 45,
+  "max_per_topic": 8,
+  "intro": "自閉症兒童介入研究的新論文候選（Europe PMC，只搜標題）。**只是候選，請人讀過再決定**。",
+  "rubric": "You triage papers for a literature radar on interventions for autistic children (age 0-12). KEEP randomized or quasi-experimental trials, systematic reviews, and meta-analyses that evaluate an intervention (for example parent-mediated, sensory-based, play-based, or social-skills programs) and report child outcomes such as communication, adaptive behavior, sensory processing, or participation. DROP study protocols without results, case reports, prevalence or screening-accuracy studies, genetics or imaging studies, and studies of adults only.",
+  "topics": [
+    {
+      "id": "asd_parent_mediated",
+      "label": "自閉症兒童：家長中介介入",
+      "query": "TITLE:(autism OR autistic OR ASD) AND TITLE:(\"parent-mediated\" OR \"parent-implemented\" OR \"caregiver-mediated\" OR \"parent training\")"
+    },
+    {
+      "id": "asd_sensory",
+      "label": "自閉症兒童：感覺處理與感覺介入",
+      "query": "TITLE:(autism OR autistic OR ASD) AND TITLE:(\"sensory integration\" OR \"sensory processing\" OR \"sensory-based\" OR \"sensory intervention\") AND (randomized OR randomised OR \"systematic review\" OR \"meta-analysis\")"
+    },
+    {
+      "id": "asd_play_social",
+      "label": "自閉症兒童：遊戲與社交技巧",
+      "query": "TITLE:(autism OR autistic OR ASD) AND TITLE:(\"play-based\" OR \"social skills\" OR \"peer-mediated\" OR \"pivotal response\")"
+    }
+  ]
+}

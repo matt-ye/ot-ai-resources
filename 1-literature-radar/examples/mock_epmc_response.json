@@ -1,0 +1,103 @@
+{
+ "_說明": "離線驗證用的示範 Europe PMC 回應（日期為示範，與報告的「最近 45 天」不一定對得上）。格式：主題 id → {hitCount, resultList.result}。論文標題與連結取自公開資料，摘要已省略。",
+ "stroke_ue_task_oriented": {
+  "hitCount": 2,
+  "resultList": {
+   "result": [
+    {
+     "title": "The Effect of HD-tDCS With Task-Oriented Upper-Limb Training After Stroke: A Randomized Sham-Controlled Trial.",
+     "journalTitle": "Research Square",
+     "firstPublicationDate": "2026-09-20",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "doi": "10.21203/rs.3.rs-10698498/v1"
+    },
+    {
+     "title": "Upper-Limb Paresis Severity Is Associated With Practice Dosage During Task-Oriented Training in Subacute Stroke-An Exploratory Secondary Analysis.",
+     "journalTitle": "Physiotherapy research international",
+     "firstPublicationDate": "2026-10-01",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "doi": "10.1002/pri.70316"
+    }
+   ]
+  }
+ },
+ "stroke_occupational_therapy": {
+  "hitCount": 3,
+  "resultList": {
+   "result": [
+    {
+     "title": "'Some of Them Were Created by People Who Have Never Had a Stroke': Understanding Desired Physical and Occupational Therapy Research Study Features for People With Chronic Stroke.",
+     "journalTitle": "Health expectations",
+     "firstPublicationDate": "2026-10-01",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "doi": "10.1111/hex.70918"
+    },
+    {
+     "title": "‘Some of Them Were Created by People Who Have Never Had a Stroke’: Understanding Desired Physical and Occupational Therapy Research Study Features for People With Chronic Stroke.",
+     "journalTitle": "Health expectations",
+     "firstPublicationDate": "2026-10-01",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "source": "PMC",
+     "id": "PMC0000001"
+    },
+    {
+     "title": "Outpatient occupational therapy access for rural stroke survivors: barriers as perceived by therapists.",
+     "journalTitle": "Frontiers in stroke",
+     "firstPublicationDate": "2026-09-24",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "doi": "10.3389/fstro.2026.1850977"
+    }
+   ]
+  }
+ },
+ "dementia_occupational_therapy": {
+  "hitCount": 1,
+  "resultList": {
+   "result": [
+    {
+     "title": "An Occupational Therapy Perspective on Environmental Interventions for Community-Dwelling People With Dementia: A Scoping Review.",
+     "journalTitle": "The American journal of occupational therapy",
+     "firstPublicationDate": "2026-10-08",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "doi": "10.1177/19437676261493014"
+    }
+   ]
+  }
+ },
+ "falls_prevention_older_adults": {
+  "hitCount": 4,
+  "resultList": {
+   "result": [
+    {
+     "title": "Investigation of the Relationship Between Health Literacy and Fall-Prevention Behaviours in Older Adults.",
+     "journalTitle": "Healthcare (Basel, Switzerland)",
+     "firstPublicationDate": "2026-10-01",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "source": "PMC",
+     "id": "PMC13665292"
+    },
+    {
+     "title": "Implementation of fall prevention for older clients in community rehabilitation: protocol for the pilot stepped wedge cluster randomised trial of SAIFR.",
+     "journalTitle": "Contemporary clinical trials",
+     "firstPublicationDate": "2026-09-18",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "doi": "10.1016/j.cct.2026.108479"
+    },
+    {
+     "title": "Exercise Prescription for Falls Prevention in Older Adults: A Before-After Study of an Online Educational Course for Fitness Instructors.",
+     "journalTitle": "Journal of aging research",
+     "firstPublicationDate": "2026-10-04",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "doi": "10.1155/jare/2427862"
+    },
+    {
+     "title": "From Fall Prevention to Injury Prevention: The Role of Martial Arts-Derived Training in Older Adults-A Narrative Review.",
+     "journalTitle": "Preprints.org",
+     "firstPublicationDate": "2026-09-24",
+     "abstractText": "(示範檔：這裡原本是論文摘要，已省略。)",
+     "doi": "10.20944/preprints202609.2155.v1"
+    }
+   ]
+  }
+ }
+}

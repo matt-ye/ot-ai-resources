@@ -1,0 +1,67 @@
+# 文獻雷達：每月 1 號自動檢索新論文，並把結果開成一張 GitHub Issue（工作單）。
+#
+# 這個檔案放在範本資料夾裡不會執行。要讓它生效：把整個資料夾的內容複製到你自己的
+# GitHub repo 根目錄，使 repo 裡有 .github/workflows/literature-radar.yml（見 README 的 B 段）。
+#
+# - 沒有設定任何金鑰也能跑：會列出全部候選、不做 AI 篩選，報告會明寫這件事。
+# - 金鑰放在 repo 的 Settings -> Secrets and variables -> Actions -> Secrets，不要寫進任何檔案。
+
+name: Literature radar
+
+on:
+  schedule:
+    - cron: '0 6 1 * *'      # 每月 1 號 06:00 UTC（台灣時間 14:00）
+  workflow_dispatch: {}       # 也可以在 Actions 頁面手動按 Run workflow
+
+# 只要這兩項權限：讀程式碼、開 Issue（同時用來讀回舊 Issue 做去重）。
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Search, de-duplicate and (optionally) filter with AI
+        id: radar
+        env:
+          # 以下四組金鑰全部選填。沒設就是空字串，程式會當作沒有金鑰，全列不篩。
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          # 選填：只在需要「釘住某個模型」時才設（Settings -> Variables）。平常留空，程式會自己挑。
+          NIM_MODEL: ${{ vars.NIM_MODEL }}
+          GROQ_MODEL: ${{ vars.GROQ_MODEL }}
+          CF_AI_MODEL: ${{ vars.CF_AI_MODEL }}
+          # 讀回舊 Issue 用。GitHub 自動提供，不需要自己建立。
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 選填：Europe PMC 要求客戶端留聯絡方式。不設也能跑；要設的話請自己決定要不要用個人信箱。
+          LITWATCH_CONTACT: ${{ vars.LITWATCH_CONTACT }}
+        run: |
+          python scripts/literature_watch.py \
+            --config config/literature-watch.json \
+            --triage \
+            --seen-from-issues literature-radar \
+            --out report.md
+
+      - name: Open an Issue with the report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create literature-radar --color 1d76db --description "Monthly literature radar" 2>/dev/null || true
+          month="$(date -u +%Y-%m)"
+          failed="${{ steps.radar.outputs.n_failed || 0 }}"
+          kept="${{ steps.radar.outputs.n_kept || 0 }}"
+          if [ "$failed" -gt 0 ]; then
+            title="文獻雷達 ${month}：不完整（${failed} 個主題無法檢查，請重跑）"
+          else
+            title="文獻雷達 ${month}：${kept} 篇候選"
+          fi
+          gh issue create --title "$title" --label literature-radar --body-file report.md

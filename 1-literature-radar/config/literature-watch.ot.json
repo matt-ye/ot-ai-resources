@@ -1,0 +1,29 @@
+{
+  "_說明": "職能治療（OT）四主題的現成設定。每個欄位的白話解釋見同資料夾的 README.md。底線開頭的鍵（例如這一行）是註解，程式會忽略。",
+  "days_window": 45,
+  "max_per_topic": 6,
+  "intro": "職能治療系期刊討論會的新論文候選（Europe PMC，只搜標題）。**只是候選，請人讀過再決定**；AI 只負責保留或篩掉。",
+  "rubric": "You triage scientific papers for an occupational therapy (OT) faculty literature radar. KEEP randomized controlled trials, systematic reviews, or meta-analyses that test a rehabilitation or OT intervention and report a functional outcome (for example Fugl-Meyer upper extremity, ARAT, Box and Block, ADL or Barthel, COPM, falls) in people after stroke, people with dementia, or community-dwelling older adults. DROP study protocols without results, case reports, purely mechanistic or imaging studies, diagnostic-accuracy studies, bibliometric papers, and papers that do not evaluate an intervention.",
+  "topics": [
+    {
+      "id": "stroke_ue_task_oriented",
+      "label": "中風上肢：以作業為導向／特定作業訓練",
+      "query": "TITLE:stroke AND TITLE:(\"upper limb\" OR \"upper extremity\" OR arm OR hand) AND TITLE:(\"task-oriented\" OR \"task-specific\" OR \"task practice\" OR \"repetitive task\")"
+    },
+    {
+      "id": "stroke_occupational_therapy",
+      "label": "中風：職能治療介入",
+      "query": "TITLE:stroke AND TITLE:(\"occupational therapy\" OR \"occupational therapist\" OR \"occupational therapists\")"
+    },
+    {
+      "id": "dementia_occupational_therapy",
+      "label": "失智症：職能治療介入",
+      "query": "TITLE:(dementia OR Alzheimer*) AND TITLE:(\"occupational therapy\" OR \"occupational therapist\" OR \"occupational therapists\")"
+    },
+    {
+      "id": "falls_prevention_older_adults",
+      "label": "長者跌倒預防（試驗／系統性回顧）",
+      "query": "TITLE:(fall OR falls) AND TITLE:prevention AND TITLE:(older OR elderly OR \"community-dwelling\") AND (randomized OR randomised OR \"systematic review\" OR \"meta-analysis\")"
+    }
+  ]
+}

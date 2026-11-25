@@ -1,0 +1,36 @@
+{
+  "_說明": "【失智症研究專用的示範帳本】layers 裡的圖層（失智症盛行率、輕度認知障礙、PM2.5 等）只是示範，請整份換成你自己研究要追的數字。defaults 的來源與年份只是示範填法，不代表真實的資料現況。",
+  "layers": [
+    {
+      "key": "prevalence",
+      "description": "national or global prevalence of dementia",
+      "measures": ["prevalence"]
+    },
+    {
+      "key": "mci",
+      "description": "prevalence of mild cognitive impairment (MCI)",
+      "measures": ["prevalence"],
+      "rules": {"exclude_methods": ["administrative"]}
+    },
+    {
+      "key": "pm25",
+      "description": "population exposure levels of PM2.5 air pollution",
+      "measures": ["exposure"]
+    },
+    {
+      "key": "risk_ratio",
+      "description": "dementia risk from a risk factor, as pooled relative risks or attributable fractions",
+      "measures": ["relative_risk", "paf"],
+      "rules": {"need_representative": false, "require_method": "meta_analysis"}
+    }
+  ],
+  "defaults": {
+    "prevalence": {"source": "GBD 2021", "year": "2021"},
+    "mci": {"source": "Example pooled review", "year": "2019"},
+    "pm25": {"source": "Example satellite estimate", "year": "2019"},
+    "risk_ratio": {"source": "Example pooled review", "year": "2023"}
+  },
+  "overrides": {
+    "KR": {"prevalence": {"source": "Example national survey", "year": "2018"}}
+  }
+}

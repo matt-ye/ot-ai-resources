@@ -1,0 +1,19 @@
+{
+  "_說明": "進階流程的示範設定：多了 ledger 欄位（帳本路徑，相對於這個設定檔）。主題與帳本都是失智症研究專用的示範，請整套換成你自己的。",
+  "days_window": 45,
+  "max_per_topic": 6,
+  "ledger": "ledger.dementia-example.json",
+  "intro": "失智症流行病學數字的新論文候選。AI 只讀事實，程式和帳本比對後才決定保留或收合。**只是候選，請人讀過再決定**。",
+  "topics": [
+    {
+      "id": "dementia_prevalence",
+      "label": "失智症盛行率估計",
+      "query": "TITLE:(dementia OR Alzheimer*) AND TITLE:(prevalence OR burden) AND (\"meta-analysis\" OR survey OR national)"
+    },
+    {
+      "id": "air_pollution_dementia",
+      "label": "空氣污染與失智症風險",
+      "query": "TITLE:(dementia OR \"cognitive impairment\") AND TITLE:(\"air pollution\" OR PM2.5 OR \"particulate matter\")"
+    }
+  ]
+}

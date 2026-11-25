@@ -1,0 +1,5 @@
+{
+  "_comment": "Controlled vocabulary shared by validate_md_write.ps1 (Windows) and validate_md_write.py (Windows/Mac). Chinese lives here (UTF-8 no BOM) so the .ps1 stays ASCII-only. To change the rules, edit this file, not the scripts.",
+  "card_required_keys": ["type", "themes", "ip", "maturity"],
+  "ip_values": ["自有", "他人需標註", "通用或公共領域"]
+}

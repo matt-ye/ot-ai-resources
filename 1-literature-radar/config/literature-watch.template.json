@@ -1,0 +1,26 @@
+{
+  "_說明_檔案": "這是空白範本。複製一份，改名成 literature-watch.json，再把下面每一欄換成你的題目。每個「_說明_」開頭的鍵都是註解，程式會忽略；改好後可以刪掉。逐欄的長解釋在同資料夾的 README.md。",
+
+  "_說明_days_window": "往回看幾天。月報建議 45：每月跑一次，多留約兩週重疊，避免漏掉剛好在交界日發表的論文。重疊造成的重複，由程式去重。",
+  "days_window": 45,
+
+  "_說明_max_per_topic": "每個主題最多掃描幾篇（Europe PMC 依發表日由新到舊給）。超過時報告會明寫『只掃描了最新 N 篇（共 M 篇）』。建議 6 到 10；常常超過就把查詢句寫得更精確，而不是一味調大。",
+  "max_per_topic": 6,
+
+  "_說明_intro": "報告開頭那句話。可寫給讀報告的人看，例如這份報告給誰、讀完要做什麼。",
+  "intro": "（寫給讀者的一句話，例如：某某主題的新論文候選。只是候選，請人讀過再決定。）",
+
+  "_說明_rubric": "只有開啟 AI 篩選才會用到。用一小段英文寫判準（模型讀英文摘要最穩）：先寫 KEEP 什麼（研究設計、對象、結果指標），再寫 DROP 什麼（計畫書、個案報告、與介入無關等）。不用寫輸出格式，程式會自動補。寫得越具體越準；沒寫的話只會篩掉明顯離題的。",
+  "rubric": "You triage scientific papers for a literature radar on <YOUR TOPIC>. KEEP <study designs> that test <what intervention> and report <what outcomes> in <which population>. DROP <study protocols without results, case reports, ... >.",
+
+  "topics": [
+    {
+      "_說明_id": "id：主題的英文代號（小寫、底線）。離線測試檔用它對應主題；不要和別的主題重複。",
+      "id": "my_topic_1",
+      "_說明_label": "label：報告裡顯示的主題名稱，用中文即可。",
+      "label": "我的主題一",
+      "_說明_query": "query：Europe PMC 查詢句。用 TITLE:詞 把範圍限制在標題（只搜全文會多出幾百篇雜訊）；同義詞用 OR 放進括號，片語用雙引號，多個概念用 AND 連接；雙引號在 JSON 裡要寫成 \\\" 。例：TITLE:(stroke) AND TITLE:(\\\"upper limb\\\" OR \\\"upper extremity\\\") AND TITLE:(\\\"task-oriented\\\" OR \\\"task-specific\\\")",
+      "query": "TITLE:(keyword1 OR keyword2) AND TITLE:(\"phrase one\" OR \"phrase two\")"
+    }
+  ]
+}

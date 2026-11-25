@@ -1,0 +1,6 @@
+{
+  "10.9999/fake.001": {"title": ["Task-oriented training after stroke: a fictional trial"], "container-title": ["Journal of Made-Up Rehabilitation"], "issued": {"date-parts": [[2024]]}},
+  "10.9999/fake.002": {"title": ["A fictional trial that was later retracted"], "container-title": ["Journal of Made-Up Rehabilitation"], "issued": {"date-parts": [[2023]]}, "updated-by": [{"type": "retraction", "DOI": "10.9999/fake.002r"}]},
+  "10.9999/fake.003": {"title": ["A fictional trial with an erratum"], "container-title": ["Journal of Made-Up Rehabilitation"], "issued": {"date-parts": [[2022]]}, "updated-by": [{"type": "correction", "DOI": "10.9999/fake.003e"}]},
+  "10.9999/fake.004": {"title": ["Completely different subject: kitchen gardening"], "container-title": ["Garden Quarterly"], "issued": {"date-parts": [[2015]]}}
+}

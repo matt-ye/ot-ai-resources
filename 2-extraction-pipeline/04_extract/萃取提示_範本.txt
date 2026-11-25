@@ -1,0 +1,34 @@
+You are a data extractor for a systematic review. Extract data from ONE randomized controlled trial (full text below). The outcome of interest is the Fugl-Meyer Assessment, upper extremity (FMA-UE; also written FMA-UL, FMUE, FM-UE, UEFM).
+(To reuse: replace the outcome and the field names with your own, and change extraction_schema.json to match.)
+
+STRICT RULES
+1. Copy numbers exactly as printed. Do NOT calculate, convert, round, or infer anything (do not convert SE to SD, do not compute change scores, do not compute N from percentages).
+2. Every number must come with a verbatim quote (max 25 words) copied from the text or table row that contains it, and a location (e.g. "Table 2", "Results, paragraph 3"). The quote is for the human checker and stays on your own computer.
+3. If a value is not reported, write "Unclear" for the value and "" for quote and location. Never guess.
+4. Report each randomized arm separately. Use the arm names used by the authors.
+5. "dispersion_type" must be exactly what the paper says: "SD", "SE", "95% CI", "IQR", or "Unclear".
+6. If FMA-UE is reported at several time points, use the end-of-intervention time point (not follow-up), and say which one in "timepoint".
+7. Output JSON only, no prose, no markdown fences, matching this schema exactly:
+
+{
+  "pmid": "<PMID given below>",
+  "design": "<parallel | crossover | Unclear>",
+  "arms": [
+    {
+      "arm_name": "<as written by authors>",
+      "intervention_summary": "<max 15 words>",
+      "n_randomized": {"value": "<number or Unclear>", "quote": "", "location": ""},
+      "n_analyzed": {"value": "<number or Unclear>", "quote": "", "location": ""},
+      "fma_ue_pre": {"mean": "<number or Unclear>", "dispersion": "<number or Unclear>", "dispersion_type": "", "quote": "", "location": ""},
+      "fma_ue_post": {"mean": "<number or Unclear>", "dispersion": "<number or Unclear>", "dispersion_type": "", "quote": "", "location": ""},
+      "fma_ue_change": {"mean": "<number or Unclear>", "dispersion": "<number or Unclear>", "dispersion_type": "", "quote": "", "location": ""},
+      "timepoint": "<e.g. post-intervention, week 4>"
+    }
+  ],
+  "notes": "<anything that makes this trial hard to pool, max 30 words>"
+}
+
+PMID: {{PMID}}
+
+FULL TEXT (tables are rendered as rows separated by |):
+{{TEXT}}

@@ -1,0 +1,221 @@
+﻿PMID,組序,組別,欄位,數值,單位,模型,是否Unclear,原文位置
+38968539,1,Experimental group,n_randomized.value,23,人,模型A,否,"Abstract, Methods"
+38968539,1,Experimental group,n_analyzed.value,23,人,模型A,否,Table 1
+38968539,1,Experimental group,fma_ue_pre.mean,20.76,分,模型A,否,Table 2
+38968539,1,Experimental group,fma_ue_pre.dispersion,4.06,分,模型A,否,Table 2
+38968539,1,Experimental group,fma_ue_pre.dispersion_type,SD,,模型A,否,Table 2
+38968539,1,Experimental group,fma_ue_post.mean,29.46,分,模型A,否,Table 2
+38968539,1,Experimental group,fma_ue_post.dispersion,4.17,分,模型A,否,Table 2
+38968539,1,Experimental group,fma_ue_post.dispersion_type,SD,,模型A,否,Table 2
+38968539,1,Experimental group,fma_ue_change.mean,8.69,分,模型A,否,Table 3
+38968539,1,Experimental group,fma_ue_change.dispersion,1.97,分,模型A,否,Table 3
+38968539,1,Experimental group,fma_ue_change.dispersion_type,SD,,模型A,否,Table 3
+38968539,2,Control group,n_randomized.value,23,人,模型A,否,"Abstract, Methods"
+38968539,2,Control group,n_analyzed.value,23,人,模型A,否,Table 1
+38968539,2,Control group,fma_ue_pre.mean,20.69,分,模型A,否,Table 2
+38968539,2,Control group,fma_ue_pre.dispersion,5.10,分,模型A,否,Table 2
+38968539,2,Control group,fma_ue_pre.dispersion_type,SD,,模型A,否,Table 2
+38968539,2,Control group,fma_ue_post.mean,25.38,分,模型A,否,Table 2
+38968539,2,Control group,fma_ue_post.dispersion,5.14,分,模型A,否,Table 2
+38968539,2,Control group,fma_ue_post.dispersion_type,SD,,模型A,否,Table 2
+38968539,2,Control group,fma_ue_change.mean,4.69,分,模型A,否,Table 3
+38968539,2,Control group,fma_ue_change.dispersion,1.75,分,模型A,否,Table 3
+38968539,2,Control group,fma_ue_change.dispersion_type,SD,,模型A,否,Table 3
+39688835,1,BUMP,n_randomized.value,38,人,模型A,否,"Results, paragraph 1"
+39688835,1,BUMP,n_analyzed.value,37,人,模型A,否,"Results, paragraph 1"
+39688835,1,BUMP,fma_ue_pre.mean,30.08,分,模型A,否,Table 1
+39688835,1,BUMP,fma_ue_pre.dispersion,5.67,分,模型A,否,Table 1
+39688835,1,BUMP,fma_ue_pre.dispersion_type,SD,,模型A,否,Table 1
+39688835,1,BUMP,fma_ue_post.mean,Unclear,分,模型A,是,
+39688835,1,BUMP,fma_ue_post.dispersion,Unclear,分,模型A,是,
+39688835,1,BUMP,fma_ue_post.dispersion_type,Unclear,,模型A,是,
+39688835,1,BUMP,fma_ue_change.mean,5.05,分,模型A,否,"Results, paragraph 5"
+39688835,1,BUMP,fma_ue_change.dispersion,0.75,分,模型A,否,"Results, paragraph 5"
+39688835,1,BUMP,fma_ue_change.dispersion_type,SE,,模型A,否,"Results, paragraph 5"
+39688835,2,CP,n_randomized.value,38,人,模型A,否,"Results, paragraph 1"
+39688835,2,CP,n_analyzed.value,36,人,模型A,否,"Results, paragraph 1"
+39688835,2,CP,fma_ue_pre.mean,29.81,分,模型A,否,Table 1
+39688835,2,CP,fma_ue_pre.dispersion,5.09,分,模型A,否,Table 1
+39688835,2,CP,fma_ue_pre.dispersion_type,SD,,模型A,否,Table 1
+39688835,2,CP,fma_ue_post.mean,Unclear,分,模型A,是,
+39688835,2,CP,fma_ue_post.dispersion,Unclear,分,模型A,是,
+39688835,2,CP,fma_ue_post.dispersion_type,Unclear,,模型A,是,
+39688835,2,CP,fma_ue_change.mean,5.10,分,模型A,否,"Results, paragraph 5"
+39688835,2,CP,fma_ue_change.dispersion,0.69,分,模型A,否,"Results, paragraph 5"
+39688835,2,CP,fma_ue_change.dispersion_type,SE,,模型A,否,"Results, paragraph 5"
+39901178,1,VR group,n_randomized.value,7,人,模型A,否,"Results, paragraph 1"
+39901178,1,VR group,n_analyzed.value,7,人,模型A,否,Table 2
+39901178,1,VR group,fma_ue_pre.mean,50.3,分,模型A,否,Table 2
+39901178,1,VR group,fma_ue_pre.dispersion,10.0,分,模型A,否,Table 2
+39901178,1,VR group,fma_ue_pre.dispersion_type,SD,,模型A,否,Table 2
+39901178,1,VR group,fma_ue_post.mean,59.1,分,模型A,否,Table 2
+39901178,1,VR group,fma_ue_post.dispersion,4.4,分,模型A,否,Table 2
+39901178,1,VR group,fma_ue_post.dispersion_type,SD,,模型A,否,Table 2
+39901178,1,VR group,fma_ue_change.mean,8.9,分,模型A,否,Table 2
+39901178,1,VR group,fma_ue_change.dispersion,1.9,分,模型A,否,Table 2
+39901178,1,VR group,fma_ue_change.dispersion_type,SD,,模型A,否,Table 2
+39901178,2,Control group,n_randomized.value,7,人,模型A,否,"Results, paragraph 1"
+39901178,2,Control group,n_analyzed.value,7,人,模型A,否,Table 2
+39901178,2,Control group,fma_ue_pre.mean,43.0,分,模型A,否,Table 2
+39901178,2,Control group,fma_ue_pre.dispersion,14.8,分,模型A,否,Table 2
+39901178,2,Control group,fma_ue_pre.dispersion_type,SD,,模型A,否,Table 2
+39901178,2,Control group,fma_ue_post.mean,44.7,分,模型A,否,Table 2
+39901178,2,Control group,fma_ue_post.dispersion,15.8,分,模型A,否,Table 2
+39901178,2,Control group,fma_ue_post.dispersion_type,SD,,模型A,否,Table 2
+39901178,2,Control group,fma_ue_change.mean,1.7,分,模型A,否,Table 2
+39901178,2,Control group,fma_ue_change.dispersion,1.9,分,模型A,否,Table 2
+39901178,2,Control group,fma_ue_change.dispersion_type,SD,,模型A,否,Table 2
+40760546,1,experimental group (EG),n_randomized.value,Unclear,人,模型A,是,
+40760546,1,experimental group (EG),n_analyzed.value,29,人,模型A,否,Section 2.1
+40760546,1,experimental group (EG),fma_ue_pre.mean,30,分,模型A,否,Table 2
+40760546,1,experimental group (EG),fma_ue_pre.dispersion,10.0,分,模型A,否,Table 2
+40760546,1,experimental group (EG),fma_ue_pre.dispersion_type,IQR,,模型A,否,Table 2
+40760546,1,experimental group (EG),fma_ue_post.mean,49,分,模型A,否,Table 2
+40760546,1,experimental group (EG),fma_ue_post.dispersion,16.0,分,模型A,否,Table 2
+40760546,1,experimental group (EG),fma_ue_post.dispersion_type,IQR,,模型A,否,Table 2
+40760546,1,experimental group (EG),fma_ue_change.mean,Unclear,分,模型A,是,
+40760546,1,experimental group (EG),fma_ue_change.dispersion,Unclear,分,模型A,是,
+40760546,1,experimental group (EG),fma_ue_change.dispersion_type,Unclear,,模型A,是,
+40760546,2,control group (CG),n_randomized.value,Unclear,人,模型A,是,
+40760546,2,control group (CG),n_analyzed.value,35,人,模型A,否,Section 2.1
+40760546,2,control group (CG),fma_ue_pre.mean,28,分,模型A,否,Table 2
+40760546,2,control group (CG),fma_ue_pre.dispersion,6.0,分,模型A,否,Table 2
+40760546,2,control group (CG),fma_ue_pre.dispersion_type,IQR,,模型A,否,Table 2
+40760546,2,control group (CG),fma_ue_post.mean,40,分,模型A,否,Table 2
+40760546,2,control group (CG),fma_ue_post.dispersion,6.5,分,模型A,否,Table 2
+40760546,2,control group (CG),fma_ue_post.dispersion_type,IQR,,模型A,否,Table 2
+40760546,2,control group (CG),fma_ue_change.mean,Unclear,分,模型A,是,
+40760546,2,control group (CG),fma_ue_change.dispersion,Unclear,分,模型A,是,
+40760546,2,control group (CG),fma_ue_change.dispersion_type,Unclear,,模型A,是,
+42581516,1,control group,n_randomized.value,32,人,模型A,否,"Intervention, paragraph 2"
+42581516,1,control group,n_analyzed.value,32,人,模型A,否,Table 3
+42581516,1,control group,fma_ue_pre.mean,32.66,分,模型A,否,Table 3
+42581516,1,control group,fma_ue_pre.dispersion,7.75,分,模型A,否,Table 3
+42581516,1,control group,fma_ue_pre.dispersion_type,SD,,模型A,否,Table 3
+42581516,1,control group,fma_ue_post.mean,34.44,分,模型A,否,Table 3
+42581516,1,control group,fma_ue_post.dispersion,7.71,分,模型A,否,Table 3
+42581516,1,control group,fma_ue_post.dispersion_type,SD,,模型A,否,Table 3
+42581516,1,control group,fma_ue_change.mean,Unclear,分,模型A,是,
+42581516,1,control group,fma_ue_change.dispersion,Unclear,分,模型A,是,
+42581516,1,control group,fma_ue_change.dispersion_type,Unclear,,模型A,是,
+42581516,2,intervention group,n_randomized.value,32,人,模型A,否,"Intervention, paragraph 2"
+42581516,2,intervention group,n_analyzed.value,32,人,模型A,否,Table 3
+42581516,2,intervention group,fma_ue_pre.mean,31.91,分,模型A,否,Table 3
+42581516,2,intervention group,fma_ue_pre.dispersion,6.90,分,模型A,否,Table 3
+42581516,2,intervention group,fma_ue_pre.dispersion_type,SD,,模型A,否,Table 3
+42581516,2,intervention group,fma_ue_post.mean,37.94,分,模型A,否,Table 3
+42581516,2,intervention group,fma_ue_post.dispersion,6.12,分,模型A,否,Table 3
+42581516,2,intervention group,fma_ue_post.dispersion_type,SD,,模型A,否,Table 3
+42581516,2,intervention group,fma_ue_change.mean,Unclear,分,模型A,是,
+42581516,2,intervention group,fma_ue_change.dispersion,Unclear,分,模型A,是,
+42581516,2,intervention group,fma_ue_change.dispersion_type,Unclear,,模型A,是,
+38968539,1,Experimental group,n_randomized.value,23,人,模型B,否,"Section 2.2, Study procedure"
+38968539,1,Experimental group,n_analyzed.value,Unclear,人,模型B,是,
+38968539,1,Experimental group,fma_ue_pre.mean,20.76,分,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,1,Experimental group,fma_ue_pre.dispersion,4.06,分,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,1,Experimental group,fma_ue_pre.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,1,Experimental group,fma_ue_post.mean,29.46,分,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,1,Experimental group,fma_ue_post.dispersion,4.17,分,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,1,Experimental group,fma_ue_post.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,1,Experimental group,fma_ue_change.mean,8.69,分,模型B,否,"Table 3, FMA-UE row; table note identifies values as mean and SD"
+38968539,1,Experimental group,fma_ue_change.dispersion,1.97,分,模型B,否,"Table 3, FMA-UE row; table note identifies values as mean and SD"
+38968539,1,Experimental group,fma_ue_change.dispersion_type,SD,,模型B,否,"Table 3, FMA-UE row; table note identifies values as mean and SD"
+38968539,2,Control group,n_randomized.value,23,人,模型B,否,"Section 2.2, Study procedure"
+38968539,2,Control group,n_analyzed.value,Unclear,人,模型B,是,
+38968539,2,Control group,fma_ue_pre.mean,20.69,分,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,2,Control group,fma_ue_pre.dispersion,5.10,分,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,2,Control group,fma_ue_pre.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,2,Control group,fma_ue_post.mean,25.38,分,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,2,Control group,fma_ue_post.dispersion,5.14,分,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,2,Control group,fma_ue_post.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE row; table note identifies values as mean and SD"
+38968539,2,Control group,fma_ue_change.mean,4.69,分,模型B,否,"Table 3, FMA-UE row; table note identifies values as mean and SD"
+38968539,2,Control group,fma_ue_change.dispersion,1.75,分,模型B,否,"Table 3, FMA-UE row; table note identifies values as mean and SD"
+38968539,2,Control group,fma_ue_change.dispersion_type,SD,,模型B,否,"Table 3, FMA-UE row; table note identifies values as mean and SD"
+39688835,1,BUMP,n_randomized.value,38,人,模型B,否,"Results, paragraph 1"
+39688835,1,BUMP,n_analyzed.value,37,人,模型B,否,"Results, paragraph 1"
+39688835,1,BUMP,fma_ue_pre.mean,30.08,分,模型B,否,Table 1
+39688835,1,BUMP,fma_ue_pre.dispersion,5.67,分,模型B,否,Table 1
+39688835,1,BUMP,fma_ue_pre.dispersion_type,SD,,模型B,否,Table 1
+39688835,1,BUMP,fma_ue_post.mean,Unclear,分,模型B,是,
+39688835,1,BUMP,fma_ue_post.dispersion,Unclear,分,模型B,是,
+39688835,1,BUMP,fma_ue_post.dispersion_type,Unclear,,模型B,是,
+39688835,1,BUMP,fma_ue_change.mean,5.05,分,模型B,否,"Results, post-testing paragraph"
+39688835,1,BUMP,fma_ue_change.dispersion,0.75,分,模型B,否,"Results, post-testing paragraph"
+39688835,1,BUMP,fma_ue_change.dispersion_type,Unclear,,模型B,是,"Results, post-testing paragraph"
+39688835,2,CP,n_randomized.value,38,人,模型B,否,"Results, paragraph 1"
+39688835,2,CP,n_analyzed.value,36,人,模型B,否,"Results, paragraph 1"
+39688835,2,CP,fma_ue_pre.mean,29.81,分,模型B,否,Table 1
+39688835,2,CP,fma_ue_pre.dispersion,5.09,分,模型B,否,Table 1
+39688835,2,CP,fma_ue_pre.dispersion_type,SD,,模型B,否,Table 1
+39688835,2,CP,fma_ue_post.mean,Unclear,分,模型B,是,
+39688835,2,CP,fma_ue_post.dispersion,Unclear,分,模型B,是,
+39688835,2,CP,fma_ue_post.dispersion_type,Unclear,,模型B,是,
+39688835,2,CP,fma_ue_change.mean,5.10,分,模型B,否,"Results, post-testing paragraph"
+39688835,2,CP,fma_ue_change.dispersion,0.69,分,模型B,否,"Results, post-testing paragraph"
+39688835,2,CP,fma_ue_change.dispersion_type,Unclear,,模型B,是,"Results, post-testing paragraph"
+39901178,1,VR group,n_randomized.value,7,人,模型B,否,"Results, paragraph 1"
+39901178,1,VR group,n_analyzed.value,7,人,模型B,否,"Table 2, header"
+39901178,1,VR group,fma_ue_pre.mean,50.3,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,1,VR group,fma_ue_pre.dispersion,10.0,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,1,VR group,fma_ue_pre.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE Total row"
+39901178,1,VR group,fma_ue_post.mean,59.1,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,1,VR group,fma_ue_post.dispersion,4.4,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,1,VR group,fma_ue_post.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE Total row"
+39901178,1,VR group,fma_ue_change.mean,8.9,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,1,VR group,fma_ue_change.dispersion,1.9,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,1,VR group,fma_ue_change.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE Total row"
+39901178,2,control group,n_randomized.value,7,人,模型B,否,"Results, paragraph 1"
+39901178,2,control group,n_analyzed.value,7,人,模型B,否,"Table 2, header"
+39901178,2,control group,fma_ue_pre.mean,43.0,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,2,control group,fma_ue_pre.dispersion,14.8,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,2,control group,fma_ue_pre.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE Total row"
+39901178,2,control group,fma_ue_post.mean,44.7,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,2,control group,fma_ue_post.dispersion,15.8,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,2,control group,fma_ue_post.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE Total row"
+39901178,2,control group,fma_ue_change.mean,1.7,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,2,control group,fma_ue_change.dispersion,1.9,分,模型B,否,"Table 2, FMA-UE Total row"
+39901178,2,control group,fma_ue_change.dispersion_type,SD,,模型B,否,"Table 2, FMA-UE Total row"
+40760546,1,EG,n_randomized.value,Unclear,人,模型B,是,
+40760546,1,EG,n_analyzed.value,29,人,模型B,否,"Materials and methods, 2.1"
+40760546,1,EG,fma_ue_pre.mean,Unclear,分,模型B,是,Table 2
+40760546,1,EG,fma_ue_pre.dispersion,10.0,分,模型B,否,Table 2
+40760546,1,EG,fma_ue_pre.dispersion_type,IQR,,模型B,否,Table 2
+40760546,1,EG,fma_ue_post.mean,Unclear,分,模型B,是,Table 2
+40760546,1,EG,fma_ue_post.dispersion,16.0,分,模型B,否,Table 2
+40760546,1,EG,fma_ue_post.dispersion_type,IQR,,模型B,否,Table 2
+40760546,1,EG,fma_ue_change.mean,Unclear,分,模型B,是,
+40760546,1,EG,fma_ue_change.dispersion,Unclear,分,模型B,是,
+40760546,1,EG,fma_ue_change.dispersion_type,Unclear,,模型B,是,
+40760546,2,CG,n_randomized.value,Unclear,人,模型B,是,
+40760546,2,CG,n_analyzed.value,35,人,模型B,否,"Materials and methods, 2.1"
+40760546,2,CG,fma_ue_pre.mean,Unclear,分,模型B,是,Table 2
+40760546,2,CG,fma_ue_pre.dispersion,6.0,分,模型B,否,Table 2
+40760546,2,CG,fma_ue_pre.dispersion_type,IQR,,模型B,否,Table 2
+40760546,2,CG,fma_ue_post.mean,Unclear,分,模型B,是,Table 2
+40760546,2,CG,fma_ue_post.dispersion,6.5,分,模型B,否,Table 2
+40760546,2,CG,fma_ue_post.dispersion_type,IQR,,模型B,否,Table 2
+40760546,2,CG,fma_ue_change.mean,Unclear,分,模型B,是,
+40760546,2,CG,fma_ue_change.dispersion,Unclear,分,模型B,是,
+40760546,2,CG,fma_ue_change.dispersion_type,Unclear,,模型B,是,
+42581516,1,control group,n_randomized.value,32,人,模型B,否,"Intervention, paragraph 2"
+42581516,1,control group,n_analyzed.value,32,人,模型B,否,"Table 3, FMA-UE"
+42581516,1,control group,fma_ue_pre.mean,32.66,分,模型B,否,"Table 3, FMA-UE"
+42581516,1,control group,fma_ue_pre.dispersion,7.75,分,模型B,否,"Table 3, FMA-UE"
+42581516,1,control group,fma_ue_pre.dispersion_type,SD,,模型B,否,"Table 3, FMA-UE"
+42581516,1,control group,fma_ue_post.mean,34.44,分,模型B,否,"Table 3, FMA-UE"
+42581516,1,control group,fma_ue_post.dispersion,7.71,分,模型B,否,"Table 3, FMA-UE"
+42581516,1,control group,fma_ue_post.dispersion_type,SD,,模型B,否,"Table 3, FMA-UE"
+42581516,1,control group,fma_ue_change.mean,Unclear,分,模型B,是,
+42581516,1,control group,fma_ue_change.dispersion,Unclear,分,模型B,是,
+42581516,1,control group,fma_ue_change.dispersion_type,Unclear,,模型B,是,
+42581516,2,intervention group,n_randomized.value,32,人,模型B,否,"Intervention, paragraph 2"
+42581516,2,intervention group,n_analyzed.value,32,人,模型B,否,"Table 3, FMA-UE"
+42581516,2,intervention group,fma_ue_pre.mean,31.91,分,模型B,否,"Table 3, FMA-UE"
+42581516,2,intervention group,fma_ue_pre.dispersion,6.90,分,模型B,否,"Table 3, FMA-UE"
+42581516,2,intervention group,fma_ue_pre.dispersion_type,SD,,模型B,否,"Table 3, FMA-UE"
+42581516,2,intervention group,fma_ue_post.mean,37.94,分,模型B,否,"Table 3, FMA-UE"
+42581516,2,intervention group,fma_ue_post.dispersion,6.12,分,模型B,否,"Table 3, FMA-UE"
+42581516,2,intervention group,fma_ue_post.dispersion_type,SD,,模型B,否,"Table 3, FMA-UE"
+42581516,2,intervention group,fma_ue_change.mean,Unclear,分,模型B,是,
+42581516,2,intervention group,fma_ue_change.dispersion,Unclear,分,模型B,是,
+42581516,2,intervention group,fma_ue_change.dispersion_type,Unclear,,模型B,是,
