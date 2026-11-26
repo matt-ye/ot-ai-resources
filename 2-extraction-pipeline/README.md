@@ -102,7 +102,7 @@ python 05_verify/compare_extractions.py --csv 04_extract/examples/numbers_long.c
 |---|---|
 | `01_plan/` | 專案說明書範本＋5 篇示範版 |
 | `02_research/` | 交辦單範本、抽驗清單、獨立查核 prompt |
-| `03_sources/` | 取得 PDF 的 SOP、驗證四級、`papers.csv`、`check_doi.py` |
+| `03_sources/` | 取得 PDF 的 SOP、驗證四級、`papers.csv`、`check_doi.py`（清單層）、`check_file.py`（檔案層） |
 | `04_extract/` | 萃取提示範本、欄位 schema、驗證程式、`examples/` 的數字 |
 | `05_verify/` | `compare_extractions.py`、測試、四種查核 SOP 與 prompt |
 | `06_iterate/` | 失敗時間序、寫成規則的模板、聚合統計 |
