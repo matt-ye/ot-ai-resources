@@ -83,13 +83,14 @@ _model_cache = {}
 # Ordered best-first. Add your own pattern here if a provider changes its line-up.
 _PREFER = {
     "groq": [r"gpt-oss-20b$", r"gpt-oss-120b$"],
-    "nim": [r"^openai/gpt-oss-20b$", r"^google/gemma-\d+-\d+b-it$", r"^nvidia/nemotron-mini-\d+b-instruct$"],
+    "nim": [r"^nvidia/nemotron-[\d.]+-bolt", r"^openai/gpt-oss-20b$", r"^minimaxai/minimax-.*flash",
+            r"^nvidia/nemotron-[\d.]+-ultra", r"^google/gemma-\d+-\d+b-it$"],
     "cf": [r"llama.*3\.3.*70b", r"llama.*4", r"qwen.*(32|72)b"],
 }
 # Last resort when discovery fails or matches nothing. These can be retired too.
 _FALLBACK = {
     "groq": ["openai/gpt-oss-20b", "openai/gpt-oss-120b"],
-    "nim": ["openai/gpt-oss-20b", "google/gemma-4-31b-it"],
+    "nim": ["nvidia/nemotron-3.5-bolt-e4b", "nvidia/nemotron-3-ultra-550b-a55b"],   # checked 2026-11-26
     "cf": ["@cf/meta/llama-3.3-70b-instruct-fp8-fast", "@cf/meta/llama-3.1-8b-instruct"],
 }
 # NIM and Groq list chat models together with speech, embedding, vision and safety
