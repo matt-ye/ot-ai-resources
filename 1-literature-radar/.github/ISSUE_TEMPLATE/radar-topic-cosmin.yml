@@ -1,0 +1,66 @@
+name: "雷達主題：評估工具的測量特性（COSMIN）"
+description: "評估工具的信度、效度、反應性。例：某個上肢功能量表在中風族群的心理計量特性。"
+title: "[雷達主題·測量特性] "
+labels: ["雷達主題提案"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        填完送出後，約 1～3 分鐘會出現一則留言：AI 寫的檢索式、判準、試搜篇數與最新 5 篇題目。
+        看過覺得可以，加上 **核准** 標籤，程式才會把它寫進設定檔（推到新分支，你再建 PR 合併）。
+        **中文填寫即可。請不要填病人、學生或未發表研究的資料。**
+        依 COSMIN 指引，構念、族群、工具類型與測量特性四項都會放進檢索式（這點和其他表單不同）；要看哪些測量特性也寫進判準。
+  - type: input
+    id: label
+    attributes:
+      label: 主題名稱
+      description: 報告上顯示的名稱，短一點。
+      placeholder: "評估工具的測量特性：…"
+    validations:
+      required: true
+  - type: textarea
+    id: construct
+    attributes:
+      label: "構念（Construct：要測的能力或狀態）"
+      description: "工具要測的能力或狀態。"
+      placeholder: "上肢動作功能"
+    validations:
+      required: true
+  - type: textarea
+    id: population
+    attributes:
+      label: "族群（Population）"
+      description: "工具用在誰身上。"
+      placeholder: "中風個案"
+    validations:
+      required: true
+  - type: textarea
+    id: instrument
+    attributes:
+      label: "工具類型（Type of instrument）"
+      description: "工具的類型。可寫具體工具名，也可寫類型。"
+      placeholder: "表現測驗（performance-based test）或自評量表"
+    validations:
+      required: true
+  - type: dropdown
+    id: properties
+    attributes:
+      label: "要看的測量特性"
+      multiple: true
+      options:
+        - 信度
+        - 效度
+        - 反應性
+        - 測量誤差
+        - 跨文化效度
+        - 全部
+  - type: textarea
+    id: exclude
+    attributes:
+      label: 不要收的（選填）
+      placeholder: 動物研究、研究計畫書
+  - type: input
+    id: replace
+    attributes:
+      label: 要取代的現有主題代號（選填）
+      description: 想換掉現有主題才填，例如 stroke_occupational_therapy。留空＝新增一個主題。

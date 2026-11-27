@@ -1,0 +1,71 @@
+name: "雷達主題：暴露與風險（PEO／PECO）"
+description: "某個暴露或危險因子和結果有沒有關聯（世代、病例對照、橫斷研究）。例：久坐與長者跌倒。"
+title: "[雷達主題·暴露與風險] "
+labels: ["雷達主題提案"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        填完送出後，約 1～3 分鐘會出現一則留言：AI 寫的檢索式、判準、試搜篇數與最新 5 篇題目。
+        看過覺得可以，加上 **核准** 標籤，程式才會把它寫進設定檔（推到新分支，你再建 PR 合併）。
+        **中文填寫即可。請不要填病人、學生或未發表研究的資料。**
+        P 與 E 會放進檢索式；O 若是明確疾病或事件（如失智、跌倒）也可能放進去；C、研究設計、排除寫進判準。填了 C 就是 PECO，沒填就是 PEO。
+  - type: input
+    id: label
+    attributes:
+      label: 主題名稱
+      description: 報告上顯示的名稱，短一點。
+      placeholder: "暴露與風險：…"
+    validations:
+      required: true
+  - type: textarea
+    id: p
+    attributes:
+      label: "P 族群（Population）"
+      description: "誰？"
+      placeholder: "社區長者"
+    validations:
+      required: true
+  - type: textarea
+    id: e
+    attributes:
+      label: "E 暴露或危險因子（Exposure）"
+      description: "暴露、危險因子或生活型態。"
+      placeholder: "久坐時間、身體活動量低"
+    validations:
+      required: true
+  - type: textarea
+    id: c
+    attributes:
+      label: "C 比較組（Comparison，選填；填了就是 PECO）"
+      description: "比較的對象或暴露程度。沒有就留空。"
+      placeholder: "每天久坐少於 4 小時者"
+  - type: textarea
+    id: o
+    attributes:
+      label: "O 結果（Outcome）"
+      description: "想看的結果。"
+      placeholder: "跌倒、跌倒相關骨折"
+    validations:
+      required: true
+  - type: dropdown
+    id: design
+    attributes:
+      label: "研究設計"
+      multiple: true
+      options:
+        - 世代研究
+        - 病例對照研究
+        - 分析性橫斷研究
+        - 系統性回顧或統合分析
+        - 不限
+  - type: textarea
+    id: exclude
+    attributes:
+      label: 不要收的（選填）
+      placeholder: 動物研究、研究計畫書
+  - type: input
+    id: replace
+    attributes:
+      label: 要取代的現有主題代號（選填）
+      description: 想換掉現有主題才填，例如 stroke_occupational_therapy。留空＝新增一個主題。

@@ -23,7 +23,7 @@ concurrency:
 jobs:
   propose:
     if: >-
-      startsWith(github.event.issue.title, '[雷達主題]') ||
+      startsWith(github.event.issue.title, '[雷達主題') ||
       contains(github.event.issue.labels.*.name, '雷達主題提案')
     runs-on: ubuntu-latest
     steps:
