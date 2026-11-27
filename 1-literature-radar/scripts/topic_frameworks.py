@@ -105,8 +105,12 @@ exclude.""",
         "query_rule": """built from ALL FOUR elements (COSMIN asks for all four in the search):
   construct, population, type of instrument, and a block of measurement-property words such as
   (reliability OR validity OR validation OR psychometric OR "measurement properties" OR responsiveness).
-- Put construct and population in TITLE:. Put the instrument type and/or the measurement-property
-  block in ABSTRACT: if TITLE: for all four would be too narrow.""",
+- Put construct and population in TITLE:. Put the instrument type and the measurement-property
+  block in ABSTRACT:.
+- Write the construct as short core words and synonyms, not the whole phrase from the form
+  (e.g. "upper limb function" -> ("upper limb" OR "upper extremity" OR arm OR hand)).
+- For the instrument type use broad words such as (scale OR test OR assessment OR questionnaire
+  OR instrument OR measure) unless the form names a specific instrument.""",
         "rubric_rule": """Start with "KEEP": studies whose aim is to evaluate measurement properties (as listed
 under 要看的測量特性, e.g. reliability, validity, responsiveness, measurement error) of
 instruments of the given type that measure the Construct in the Population, and systematic

@@ -62,10 +62,14 @@ id: short English snake_case name for the topic (lowercase letters, digits, unde
 query: a Europe PMC query {query_rule}
 - Use TITLE:(...) for each concept; you may use ABSTRACT:(...) only where the rules above allow
   it or to widen a concept. No other field codes (no MESH_HEADING, KW, PUB_TYPE, etc.).
-- Synonyms joined with OR inside parentheses; multi-word phrases in double quotes;
+- Synonyms joined with OR inside parentheses; EVERY multi-word term in double quotes, including
+  terms with an apostrophe ("Alzheimer's disease", "upper limb function") -- unquoted words are
+  searched separately and the results become nonsense;
   concepts joined with an explicit AND between every block. Include spelling variants and
   common synonyms (behavior/behaviour, older/elderly/aged, falls/fall). Example:
   TITLE:(stroke OR "cerebrovascular accident") AND TITLE:("task-oriented" OR "task-specific")
+- Use short core terms and their synonyms; a long phrase copied from the form (e.g. "upper limb
+  function", "performance test") rarely appears word for word in titles or abstracts.
 - Keep it under 500 characters. No < > or backticks.
 
 rubric: one English paragraph for the keep/drop AI. {rubric_rule} No output format.
@@ -169,7 +173,26 @@ def query_problems(q):
             probs.append(f"用了不允許的欄位 {f}:（只能用 TITLE: 或 ABSTRACT:）")
     if not re.search(r"\b(TITLE|ABSTRACT):", outside_quotes):
         probs.append("沒有用 TITLE: 或 ABSTRACT: 限定範圍，會多出大量雜訊")
+    for a, b in unquoted_phrases(q):
+        probs.append(f"「{a} {b}」是多字詞，要加雙引號（不加的話 Europe PMC 會把兩個字拆開搜）")
     return probs
+
+
+OPERATORS = {"AND", "OR", "NOT"}
+
+
+def unquoted_phrases(q):
+    """Pairs of adjacent bare words with no operator between them, outside double quotes.
+    Found in a live run (2026-11-27): TITLE:(dementia OR Alzheimer's disease) made Europe PMC
+    search "disease" on its own, and the results were about kidney disease and vaccines."""
+    tokens = re.findall(r'"[^"]*"|\(|\)|[A-Za-z_]+:|[^\s()"]+', q)
+    pairs, prev = [], None
+    for t in tokens:
+        bare = not (t.startswith('"') or t in "()" or t.endswith(":") or t.upper() in OPERATORS)
+        if bare and prev is not None:
+            pairs.append((prev, t))
+        prev = t if bare else None
+    return pairs
 
 
 def rubric_problems(r):
@@ -205,11 +228,15 @@ def parse_llm(content):
             "notes_zh": str(o.get("notes_zh") or "").strip()[:300]}
 
 
-def ask_llm(form, env=None):
-    """Return (proposal dict or None, 'tier/model' or '')."""
+def ask_llm(form, env=None, problems=None):
+    """Return (proposal dict or None, 'tier/model' or ''). `problems`: what was wrong with the
+    previous attempt, sent back so the model can fix it."""
     fw = form.get("framework", "PICO")
-    v = llm_triage.triage(f"{fw} form:\n" + form_as_text(form), "", env=env,
-                          system=system_prompt(fw), parse=parse_llm, heavy=True)
+    text = f"{fw} form:\n" + form_as_text(form)
+    if problems:
+        text += ("\n\nYour previous answer was rejected by the validator for these reasons "
+                 "(fix them and answer again with the full JSON): " + " | ".join(problems))
+    v = llm_triage.triage(text, "", env=env, system=system_prompt(fw), parse=parse_llm, heavy=True)
     if not v:
         return None, ""
     return v, f"{v.get('tier', '?')}/`{v.get('model', '?')}`"
@@ -329,6 +356,15 @@ def propose(body, config_path, env=None, search=None, mesh=None, today=None, pau
                 "query": raw["query"], "rubric": raw["rubric"], "mesh_terms": raw["mesh_terms"],
                 "notes_zh": raw["notes_zh"], "replace_id": clean_id(form["replace_id"]) if form["replace_id"] else ""}
     bad = query_problems(proposal["query"]) + rubric_problems(proposal["rubric"])
+    if bad:                      # one automatic retry, telling the model what was wrong
+        raw2, model2 = ask_llm(form, env, problems=bad)
+        if raw2:
+            bad2 = query_problems(raw2["query"]) + rubric_problems(raw2["rubric"])
+            if not bad2:
+                raw, model = raw2, model2 + "（第二次；第一次的檢索式不合格已退回）"
+                proposal.update(id=clean_id(raw["id"]), query=raw["query"], rubric=raw["rubric"],
+                                mesh_terms=raw["mesh_terms"], notes_zh=raw["notes_zh"])
+                bad = []
     if bad:
         return ("## 雷達主題提案：AI 寫出的查詢句不合格\n\n" + "\n".join(f"- {b}" for b in bad)
                 + "\n\nAI 寫的內容（未採用）：" + md_safe(proposal["query"][:MAX_QUERY])
