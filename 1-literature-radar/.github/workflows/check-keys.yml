@@ -1,0 +1,37 @@
+# 金鑰檢查：三家 AI 服務（NVIDIA NIM、Groq、Cloudflare）各自用一個虛構題目呼叫一次，
+# 確認每一組金鑰都能用。結果在這次執行的頁面上（Summary），有設定的任何一家失敗就顯示紅叉。
+#
+# 為什麼要另外檢查：雷達第一家成功就不往下試，所以備援的金鑰平常不會被呼叫到，
+# 貼錯了也看不出來。剛設好金鑰、或報告出現「所有模型都失敗」時，手動跑一次這個。
+#
+# 這個檔案放在範本資料夾裡不會執行；和 literature-radar.yml 一起複製到你 repo 的根目錄才會生效。
+# 金鑰不會出現在任何輸出裡。
+
+name: Check AI keys
+
+on:
+  workflow_dispatch: {}       # 只能手動：Actions 頁 → Check AI keys → Run workflow。不排程、不開 Issue。
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Call each AI provider once with a made-up title
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          NIM_MODEL: ${{ vars.NIM_MODEL }}
+          GROQ_MODEL: ${{ vars.GROQ_MODEL }}
+          CF_AI_MODEL: ${{ vars.CF_AI_MODEL }}
+        run: python scripts/check_keys.py
