@@ -18,13 +18,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RADAR = os.path.dirname(HERE)
 FORM_FILES = {"radar-topic.yml": "PICO", "radar-topic-cocopop.yml": "CoCoPop", "radar-topic-peco.yml": "PECO",
               "radar-topic-pird.yml": "PIRD", "radar-topic-cosmin.yml": "COSMIN",
-              "radar-topic-pico-qualitative.yml": "PICo"}
+              "radar-topic-pico-qualitative.yml": "PICo", "radar-topic-experiment.yml": "EXPERIMENT"}
 QUERIES = {"PICO": 'TITLE:(stroke) AND TITLE:("mirror therapy")',
            "CoCoPop": 'TITLE:(dementia OR alzheimer*) AND TITLE:(older OR elderly) AND TITLE:(prevalence OR incidence)',
            "PECO": 'TITLE:(older OR elderly) AND TITLE:(sedentary OR "sitting time") AND TITLE:(falls OR fall)',
            "PIRD": 'TITLE:("Montreal Cognitive Assessment" OR MoCA) AND TITLE:("mild cognitive impairment" OR MCI)',
            "COSMIN": 'TITLE:("upper limb" OR "upper extremity") AND TITLE:(stroke) AND ABSTRACT:(reliability OR validity)',
-           "PICo": 'TITLE:(stroke) AND TITLE:("return to work") AND ABSTRACT:(qualitative OR interview)'}
+           "PICo": 'TITLE:(stroke) AND TITLE:("return to work") AND ABSTRACT:(qualitative OR interview)',
+           "EXPERIMENT": 'TITLE:(older OR elderly) AND TITLE:(handwriting OR writing) AND ABSTRACT:(kinematic OR kinematics)'}
 
 
 def sample_body(fw, skip=()):
@@ -111,6 +112,13 @@ class EachFramework(unittest.TestCase):
         form = pt.parse_form(sample_body("PICO"))
         self.assertEqual(form["t"], "範例 t")
         self.assertIn("T 時間", pt.form_as_text(form))
+
+    def test_experiment_states_its_basis_and_excludes_treatment_trials(self):
+        spec = tf.FRAMEWORKS["EXPERIMENT"]
+        self.assertIn("PICOS", spec["name"])
+        self.assertIn("沒有專屬框架", spec["basis"])           # honest about the source
+        self.assertIn("MANIPULATE", spec["rubric_rule"])
+        self.assertIn("intervention trials", spec["rubric_rule"])
 
     def test_peco_design_follows_s(self):
         self.assertIn("listed under S", tf.FRAMEWORKS["PECO"]["rubric_rule"])

@@ -175,7 +175,25 @@ def query_problems(q):
         probs.append("沒有用 TITLE: 或 ABSTRACT: 限定範圍，會多出大量雜訊")
     for a, b in unquoted_phrases(q):
         probs.append(f"「{a} {b}」是多字詞，要加雙引號（不加的話 Europe PMC 會把兩個字拆開搜）")
+    if missing_operator(q):
+        probs.append("兩組檢索區塊之間少了 AND／OR／NOT（例如 `) ABSTRACT:(`），要明寫運算子")
     return probs
+
+
+def missing_operator(q):
+    """True when a block or term is directly followed by a field code or "(" with no AND/OR/NOT
+    between them, e.g. TITLE:(a) ABSTRACT:(b). Found in a live run (2026-11-27)."""
+    tokens = re.findall(r'"[^"]*"|\(|\)|[A-Za-z_]+:|[^\s()"]+', q)
+    prev_closes = False
+    for t in tokens:
+        opens = t == "(" or t.endswith(":")
+        if opens and prev_closes:
+            return True
+        if t.upper() in OPERATORS or t.endswith(":") or t == "(":
+            prev_closes = False
+        else:
+            prev_closes = True          # a term, a quoted phrase or ")"
+    return False
 
 
 OPERATORS = {"AND", "OR", "NOT"}

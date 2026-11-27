@@ -1,0 +1,69 @@
+name: "雷達主題：實驗操弄與機制（PICOS 結構）"
+description: "同一組人在研究者操弄的不同條件下的表現或生理反應（機制研究）。例：長者在不同難度書寫作業下的動作學差異。"
+title: "[雷達主題·實驗操弄] "
+labels: ["雷達主題提案"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        填完送出後，約 1～3 分鐘會出現一則留言：AI 寫的檢索式、判準、試搜篇數與最新 5 篇題目。
+        看過覺得可以，加上 **核准** 標籤，程式才會把它寫進設定檔（推到新分支，你再建 PR 合併）。
+        **中文填寫即可。請不要填病人、學生或未發表研究的資料。**
+        沒有專門給這類研究的問題框架；這張沿用 **PICOS 的結構**：I＝研究者操弄的條件，C＝同一批受試者的參照條件。已發表的回顧也這樣訂納入條件，例如 Devecchi 2021（Syst Rev）。條件由研究者操弄時用這張；觀察到的暴露或危險因子用「暴露與風險（PEO／PECO）」；要看治療或訓練有沒有效用「介入效果（PICO）」。受試者與操弄的條件放進檢索式；比較條件、測量指標、設計寫進判準（測量方式很明確時，也可能加進摘要檢索）。
+  - type: input
+    id: label
+    attributes:
+      label: 主題名稱
+      description: 報告上顯示的名稱，短一點。
+      placeholder: "實驗操弄與機制：…"
+    validations:
+      required: true
+  - type: textarea
+    id: p
+    attributes:
+      label: "P 受試者（Participants）"
+      description: "誰做作業？"
+      placeholder: "健康長者；輕度認知障礙長者"
+    validations:
+      required: true
+  - type: textarea
+    id: i
+    attributes:
+      label: "I 操弄的條件（研究者給的作業或情境）"
+      description: "研究者給的作業或情境（要比較的條件）。"
+      placeholder: "高難度書寫作業、雙重任務（邊寫邊計算）"
+    validations:
+      required: true
+  - type: textarea
+    id: c
+    attributes:
+      label: "C 比較條件（選填）"
+      description: "和誰比？沒有就留空。"
+      placeholder: "低難度書寫作業、單一任務"
+  - type: textarea
+    id: o
+    attributes:
+      label: "O 測量指標（行為、動作學、腦波、眼動…）"
+      description: "要比較的指標。寫得越具體，AI 篩選越準。"
+      placeholder: "書寫動作學（速度、停頓）、fNIRS 前額葉活化"
+  - type: dropdown
+    id: design
+    attributes:
+      label: "S 設計"
+      description: "可複選。"
+      multiple: true
+      options:
+        - 受試者內（重複量數）
+        - 交叉設計
+        - 受試者間
+        - 不限
+  - type: textarea
+    id: exclude
+    attributes:
+      label: 不要收的（選填）
+      placeholder: 動物研究、研究計畫書
+  - type: input
+    id: replace
+    attributes:
+      label: 要取代的現有主題代號（選填）
+      description: 想換掉現有主題才填，例如 stroke_occupational_therapy。留空＝新增一個主題。
