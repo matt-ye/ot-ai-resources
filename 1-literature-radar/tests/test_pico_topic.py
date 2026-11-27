@@ -122,6 +122,23 @@ class Propose(unittest.TestCase):
     def test_too_many_hits_warns(self):
         self.assertIn("太寬", run_propose(search=fake_search(200, 900)))
 
+    def test_unquoted_phrase_is_caught(self):
+        # Live run 2026-11-27: "Alzheimer's disease" unquoted -> Europe PMC searched "disease" alone.
+        self.assertTrue(any("多字詞" in p for p in pt.query_problems("TITLE:(dementia OR Alzheimer's disease)")))
+        self.assertEqual(pt.query_problems('TITLE:(dementia OR "Alzheimer\'s disease")'), [])
+
+    def test_one_retry_fixes_a_bad_query(self):
+        bad = dict(GOOD, query="TITLE:(dementia OR Alzheimer's disease)", tier="groq", model="m")
+        good = dict(GOOD, query='TITLE:(dementia OR "Alzheimer\'s disease")', tier="groq", model="m")
+        with mock.patch.object(pt.llm_triage, "triage", side_effect=[bad, good]) as call, \
+                mock.patch.object(pt.llm_triage, "available", return_value=True):
+            text = pt.propose(FORM, helpers.OT_CONFIG, search=fake_search(), mesh=fake_mesh,
+                              today=datetime.date(2026, 11, 27), pause=0)
+        self.assertIn("試搜結果", text)
+        self.assertIn("第二次", text)
+        self.assertEqual(pt.extract_proposal(text)["query"], good["query"])
+        self.assertIn("多字詞", call.call_args_list[1].args[0])      # the problems were sent back
+
     def test_bad_llm_query_is_not_proposed(self):
         text = run_propose(dict(GOOD, query='MESH_HEADING:"Stroke"'))
         self.assertIn("不合格", text)
