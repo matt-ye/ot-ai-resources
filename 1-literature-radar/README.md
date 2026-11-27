@@ -18,13 +18,15 @@
 
 ```
 1-literature-radar/
-  scripts/        主程式（literature_watch.py）、AI 篩選（llm_triage.py）、重試（http_retry.py）、金鑰檢查（check_keys.py）
+  scripts/        主程式（literature_watch.py）、AI 篩選（llm_triage.py）、重試（http_retry.py）、金鑰檢查（check_keys.py）、PICO 表單轉主題（pico_topic.py）
   config/         關鍵字設定檔；README.md 逐欄解釋怎麼寫
   advanced/       進階流程：AI 讀事實、程式對照帳本（失智症專用示範；一般人不用看）
   examples/       示範報告與離線測試用的假資料
   tests/          離線測試
   .github/workflows/literature-radar.yml    GitHub 自動執行的排程範本
   .github/workflows/check-keys.yml          金鑰檢查（只能手動執行）
+  .github/workflows/radar-topic-*.yml       PICO 表單：試搜提案、核准後套用（見 C0）
+  .github/ISSUE_TEMPLATE/radar-topic.yml    PICO 表單本身
   .env.example    金鑰欄位範本（只有變數名，沒有值）
 ```
 
@@ -92,6 +94,29 @@
    - 排程只在預設分支（通常是 `main`）上的 workflow 檔生效，時間一律是世界標準時間（UTC）。
 
 ## C 換成你的題目
+
+**最簡單：填 PICO 表單（不用碰 JSON）。** 見下方「C0」。想自己改設定檔，照 1～5 步。
+
+### C0 用 PICO 表單新增主題（GitHub 上）
+
+1. **（人★）填表單。** repo 上方 Issues → New issue → 選「雷達主題提案（PICO）」。中文填即可：主題名稱、P 對象、I 介入（必填），C 對照、O 結果指標、研究設計、不要收的（選填）。
+   - P 與 I 會放進檢索式，求「找得全」；O、研究設計、排除會寫進這個主題自己的 AI 判準，求「篩得準」。只搜標題時把四項全部用 AND 連起來，幾乎會找不到東西。
+2. **（LLM＋程式）約 1～3 分鐘後出現一則留言。** 內容有：AI 寫的檢索式、判準、AI 對檢索式的說明、試搜篇數（最近 45 天、最近一年）與最新 5 篇題目，以及 AI 建議的 MeSH 詞是否真的存在（向 NCBI 查證，只給你參考同義詞，不放進檢索式）。
+   - 檢索式只允許 `TITLE:`、`ABSTRACT:` 欄位，括號與引號要成對；不合格的不會被提出。
+   - 最近一年 0 篇、或 45 天就超過 40 篇，留言會明白警告。Europe PMC 語法錯時不會報錯，只會回 0 篇，所以 0 篇一定要看。
+   - 想修改：直接編輯這張 Issue 的內容，會重新產生一則留言。
+3. **（人★）看過覺得可以，加上 `核准` 標籤。** 只有對 repo 有寫入權限的人能加標籤，所以這一步就是權限檢查。
+4. **（程式）約 1 分鐘後再出現一則留言**：「已套用……按這裡建立 PR」。程式把主題寫進設定檔、推到新分支，**不直接改 main，也不自動合併**。
+5. **（人★）點連結建立 PR，看差異，自動測試通過後合併。** 下個月的雷達就會用新主題。
+
+注意：
+
+- 只有 repo 擁有者、組織成員與協作者開的表單會觸發 AI。這是公開 repo，不讓陌生人用到你的金鑰；別人想用，Fork 到自己帳號、設自己的金鑰。
+- 第一次使用前要有兩個標籤：`雷達主題提案` 與 `核准`（Issues → Labels → New label）。
+- 範本資料夾裡的 `.github/ISSUE_TEMPLATE/radar-topic.yml` 與 `.github/workflows/radar-topic-*.yml`，要和 `literature-radar.yml` 一起複製到你 repo 的根目錄才會生效（B 段）。
+- 程式在 `scripts/pico_topic.py`；本機也能用：`python scripts/pico_topic.py propose --body-file 表單.md --config config/literature-watch.json --out 留言.md`（表單格式照 `tests/test_pico_topic.py` 裡的 `FORM`）。
+
+### 自己改設定檔
 
 1. 複製 `config/literature-watch.template.json`，改名（例如 `my-topic.json`）。每個欄位的意思見 `config/README.md`。
 2. 寫 `topics`：每個主題一個 `label`（顯示名稱）和一句 `query`（查詢句）。先到 europepmc.org 的搜尋框貼上查詢句，一個月新增幾篇到幾十篇是合理範圍。
