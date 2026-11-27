@@ -81,6 +81,14 @@ AI 可以很快做完很多事。結果能不能相信，靠的是**計畫、查
 - **一個用途申請一把**，能設到期日與最小權限就設（例如 Cloudflare 只給 Workers AI 權限）。
 - **已經傳上去了**：立刻到服務商網站撤銷那把金鑰，再申請新的。只刪檔案沒有用，舊版本的紀錄裡還看得到。
 
+## 自動測試
+
+每次推送到 `main`、每個 PR，GitHub Actions 都會自動把全部測試跑一遍（設定在 `.github/workflows/tests.yml`）：文獻雷達、萃取管線的取材／開發／驗證三支程式，以及知識庫範本的存檔檢查。Windows 與 Linux、Python 3.9 與 3.12 各跑一次。
+
+- 結果在 PR 頁下方的檢查區：綠勾＝全過，紅叉＝有一項失敗，點進去看是哪一步。也可以看上方的 Actions 分頁。
+- 測試都用假資料，不連外網，也不需要任何金鑰。
+- 你 Fork 之後想先在自己電腦跑：進到各資料夾，執行 `python -m unittest discover -s tests`（知識庫是 `python scripts/hook_selftest.py`）。
+
 ## 授權
 
 - 程式碼：[MIT](LICENSE)。包含 `.py`、`.ps1`、`.yml`、設定用的 `.json` 與測試
