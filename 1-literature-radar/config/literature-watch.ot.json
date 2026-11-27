@@ -31,6 +31,13 @@
       "query": "TITLE:(\"stroke\" OR \"cerebrovascular accident\") AND TITLE:(\"mirror therapy\") AND (randomized OR randomised OR \"systematic review\" OR \"meta-analysis\")",
       "rubric": "KEEP randomized controlled trials, systematic reviews, or meta-analyses involving adults with post-stroke upper limb paralysis receiving mirror therapy, assessing FMA-UE, ARAT, and daily living function. DROP study protocols without results, case reports, animal studies, or studies focusing only on brain imaging.",
       "_來源": "PICO 表單（LLM 轉換、人核准）"
+    },
+    {
+      "id": "dementia_prevalence_community_65plus",
+      "label": "失智症盛行率",
+      "query": "TITLE:(dementia OR \"Alzheimer's disease\") AND TITLE:(community OR \"community dwelling\") AND TITLE:(elderly OR aged OR \"65 years\" OR \"65+\") AND TITLE:(prevalence OR incidence OR epidemiology OR epidemiological OR \"cross-sectional\")",
+      "rubric": "KEEP: population-based, cross-sectional or cohort studies, and systematic reviews or meta-analyses of such studies that report an estimate of the prevalence of dementia (including Alzheimer’s disease) in community-dwelling adults aged 65 years or older, within Taiwan or East Asia after 2015. DROP: intervention trials, studies reporting only risk factors, diagnostic accuracy, treatment outcomes, protocols, case reports, or studies confined to hospital or nursing home settings, and any study that does not provide a prevalence estimate.",
+      "_來源": "盛行率／發生率（CoCoPop） 表單（LLM 轉換、人核准）"
     }
   ]
 }
