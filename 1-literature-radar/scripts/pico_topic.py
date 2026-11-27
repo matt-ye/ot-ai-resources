@@ -228,6 +228,18 @@ def parse_llm(content):
             "notes_zh": str(o.get("notes_zh") or "").strip()[:300]}
 
 
+TIER_KEYS = {"nim": ("NVIDIA_API_KEY",), "groq": ("GROQ_API_KEY",), "cloudflare": ("CF_ACCOUNT_ID", "CF_API_TOKEN")}
+
+
+def env_without(env, tier):
+    """A copy of the environment without one provider's keys, so the rotation starts at the next
+    provider. Returns None when no other provider would be left (then retry the same one)."""
+    base = dict(os.environ if env is None else env)
+    for k in TIER_KEYS.get(tier, ()):
+        base.pop(k, None)
+    return base if llm_triage.available(base) else None
+
+
 def ask_llm(form, env=None, problems=None):
     """Return (proposal dict or None, 'tier/model' or ''). `problems`: what was wrong with the
     previous attempt, sent back so the model can fix it."""
@@ -356,12 +368,16 @@ def propose(body, config_path, env=None, search=None, mesh=None, today=None, pau
                 "query": raw["query"], "rubric": raw["rubric"], "mesh_terms": raw["mesh_terms"],
                 "notes_zh": raw["notes_zh"], "replace_id": clean_id(form["replace_id"]) if form["replace_id"] else ""}
     bad = query_problems(proposal["query"]) + rubric_problems(proposal["rubric"])
-    if bad:                      # one automatic retry, telling the model what was wrong
-        raw2, model2 = ask_llm(form, env, problems=bad)
+    if bad:
+        # One automatic retry, telling the model what was wrong. A different provider is asked
+        # when one is available: in a live run (2026-11-27) the same small model, given the
+        # problem, repeated the same mistake.
+        other = env_without(env, raw.get("tier", ""))
+        raw2, model2 = ask_llm(form, other if other is not None else env, problems=bad)
         if raw2:
             bad2 = query_problems(raw2["query"]) + rubric_problems(raw2["rubric"])
             if not bad2:
-                raw, model = raw2, model2 + "（第二次；第一次的檢索式不合格已退回）"
+                raw, model = raw2, f"{model2}（第二次；第一次由 {model} 寫的檢索式不合格，已退回）"
                 proposal.update(id=clean_id(raw["id"]), query=raw["query"], rubric=raw["rubric"],
                                 mesh_terms=raw["mesh_terms"], notes_zh=raw["notes_zh"])
                 bad = []
