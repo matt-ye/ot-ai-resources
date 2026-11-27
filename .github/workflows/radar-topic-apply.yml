@@ -1,0 +1,69 @@
+# 雷達主題核准：有人在提案 Issue 加上「核准」標籤，就把程式留言裡的提案寫進設定檔，
+# 推到新分支 radar-topic/issue-N-…，再留言附「建立 PR」的連結。**不直接改 main，也不自動合併。**
+#
+# 只有對 repo 有寫入（或分類）權限的人能加標籤，所以「核准」本身就是權限檢查。
+# 為什麼不直接開 PR：個人 repo 預設不允許 GitHub Actions 建立 PR（Settings → Actions → General →
+# Workflow permissions）；而且由你親手建立的 PR，才會觸發自動測試。
+# 本課程 repo 用的版本：程式留在 1-literature-radar/ 裡，所以加了 working-directory，設定檔是 literature-watch.ot.json。
+
+name: Radar topic apply
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+# 同一張 Issue 一次只跑一個（連續編輯、或還在試搜時就核准，都會排隊，不會亂序）。
+concurrency:
+  group: radar-topic-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    if: >-
+      github.event.label.name == '核准' && (
+      startsWith(github.event.issue.title, '[雷達主題]') ||
+      contains(github.event.issue.labels.*.name, '雷達主題提案'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Write the newest proposal into the config file
+        id: apply
+        working-directory: 1-literature-radar
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          # 取全部留言（上限 100 則），由程式挑「最新一則程式留言」：只採用 github-actions 機器人自己寫的，
+          # 別人貼的假提案不算；最新那則沒有可套用的提案（例如重跑後試搜失敗）就停下，不會改用舊的提案。
+          gh api "repos/$GITHUB_REPOSITORY/issues/$NUMBER/comments?per_page=100" > "$RUNNER_TEMP/comments.json"
+          if ! summary="$(python scripts/pico_topic.py apply --comments-json "$RUNNER_TEMP/comments.json" --config config/literature-watch.ot.json 2> "$RUNNER_TEMP/err.txt")"; then
+            cat "$RUNNER_TEMP/err.txt"
+            gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/err.txt"
+            exit 1
+          fi
+          echo "$summary"
+          echo "summary=$summary" >> "$GITHUB_OUTPUT"
+
+      - name: Push to a new branch and comment the PR link
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUMBER: ${{ github.event.issue.number }}
+          SUMMARY: ${{ steps.apply.outputs.summary }}
+        run: |
+          branch="radar-topic/issue-${NUMBER}-${GITHUB_RUN_ID}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git commit -am "雷達主題：${SUMMARY}（Issue #${NUMBER} 核准）"
+          git push origin "$branch"
+          url="https://github.com/$GITHUB_REPOSITORY/compare/${GITHUB_REF_NAME}...${branch}?expand=1"
+          gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" --body "已套用：${SUMMARY}。改動在分支 \`${branch}\`，**[按這裡建立 PR]($url)**，看過差異、自動測試通過後再合併。合併後，下個月的雷達就會用新主題。"

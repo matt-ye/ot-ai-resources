@@ -57,6 +57,23 @@ class AiLine(unittest.TestCase):
                                          env={"GROQ_API_KEY": "x"})
         self.assertIn("沒有 `rubric`", report)
 
+    def test_topic_rubric_is_used_for_that_topic_only(self):
+        cfg = lw.load_config(helpers.OT_CONFIG)
+        cfg["topics"][0]["rubric"] = "TOPIC-ONE RUBRIC"
+        path = helpers.write_json(tempfile.mkdtemp(), "c.json", cfg)
+        used = []
+
+        def fake_triage(title, abstract="", **kw):
+            used.append(llm_triage.RUBRIC)
+            return {"verdict": "keep", "reason": "", "tier": "groq", "model": "m"}
+        with mock.patch.object(llm_triage, "triage", side_effect=fake_triage), \
+                mock.patch.object(lw.time, "sleep"):
+            report, _ = helpers.run_main(["--config", path, "--fixture", helpers.FIXTURE, "--triage"],
+                                         env={"GROQ_API_KEY": "x"})
+        self.assertIn("TOPIC-ONE RUBRIC", used)
+        self.assertIn(cfg["rubric"], used)              # the other topics keep the config-wide one
+        self.assertNotIn("沒有 `rubric`", report)
+
 
 class FailedSearch(unittest.TestCase):
     def test_failed_topic_is_reported_as_unchecked_not_as_empty(self):

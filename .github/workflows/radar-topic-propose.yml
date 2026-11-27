@@ -1,0 +1,65 @@
+# 雷達主題提案：有人用 PICO 表單開了 Issue（或編輯了它），就請 AI 把表單轉成檢索式與判準，
+# 試搜 Europe PMC，並把結果留言在同一張 Issue。這一步**不改任何檔案**。
+#
+# 只處理 repo 擁有者、組織成員與協作者的 Issue：這是公開 repo，不讓陌生人用到你的 AI 金鑰。
+# 本課程 repo 用的版本：程式留在 1-literature-radar/ 裡，所以加了 working-directory，設定檔是 literature-watch.ot.json。
+
+name: Radar topic proposal
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+# 同一張 Issue 一次只跑一個（連續編輯、或還在試搜時就核准，都會排隊，不會亂序）。
+concurrency:
+  group: radar-topic-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  propose:
+    if: >-
+      startsWith(github.event.issue.title, '[雷達主題]') ||
+      contains(github.event.issue.labels.*.name, '雷達主題提案')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Only maintainers can use the AI keys
+        if: ${{ !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association) }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" --body "這個 repo 只處理維護者的主題提案（會用到維護者的 AI 金鑰）。想用這個功能，請 Fork 到自己的帳號，設好自己的金鑰再用。"
+          exit 1
+
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: PICO form -> query + rubric -> test search
+        working-directory: 1-literature-radar
+        env:
+          # 表單內容經由環境變數傳入，不直接寫進指令，避免被當成指令執行。
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          NIM_MODEL: ${{ vars.NIM_MODEL }}
+          GROQ_MODEL: ${{ vars.GROQ_MODEL }}
+          CF_AI_MODEL: ${{ vars.CF_AI_MODEL }}
+        run: |
+          printf '%s' "$ISSUE_BODY" > "$RUNNER_TEMP/body.md"
+          python scripts/pico_topic.py propose --body-file "$RUNNER_TEMP/body.md" \
+            --config config/literature-watch.ot.json --out "$RUNNER_TEMP/comment.md"
+
+      - name: Post the result as a comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/comment.md"

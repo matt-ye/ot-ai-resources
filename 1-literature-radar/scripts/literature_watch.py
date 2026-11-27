@@ -262,8 +262,12 @@ def main(argv=None, judge=None, extra_notes=None, judge_header=None):
     since = until - datetime.timedelta(days=window)
     since_iso, until_iso = since.isoformat(), until.isoformat()
 
-    rubric_missing = bool(args.triage) and not cfg.get("rubric")
-    llm_triage.RUBRIC = cfg.get("rubric") or llm_triage.DEFAULT_RUBRIC
+    # A topic may carry its own `rubric` (e.g. one written from a PICO form); topics
+    # without one use the config-wide rubric, so older config files behave as before.
+    base_rubric = cfg.get("rubric") or llm_triage.DEFAULT_RUBRIC
+    rubric_missing = bool(args.triage) and not cfg.get("rubric") \
+        and not all(str(t.get("rubric") or "").strip() for t in cfg["topics"])
+    llm_triage.RUBRIC = base_rubric
     keys_present = llm_triage.available()
     do_triage = bool(args.triage and keys_present)
     judge = judge or default_judge
@@ -297,6 +301,7 @@ def main(argv=None, judge=None, extra_notes=None, judge_header=None):
     failed_topics = []
     for t in cfg["topics"]:
         label = t["label"]
+        llm_triage.RUBRIC = str(t.get("rubric") or "").strip() or base_rubric
         try:
             if fixture is not None:
                 hits, results = fixture_search(fixture, t.get("id", ""), per_topic)
