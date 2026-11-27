@@ -139,6 +139,33 @@ class Propose(unittest.TestCase):
         self.assertEqual(pt.extract_proposal(text)["query"], good["query"])
         self.assertIn("多字詞", call.call_args_list[1].args[0])      # the problems were sent back
 
+    def retry_envs(self, env):
+        """Run propose where the first answer is bad (from NIM) and the second good; return the
+        environments each call received."""
+        bad = dict(GOOD, query="TITLE:(dementia OR Alzheimer's disease)", tier="nim", model="small")
+        good = dict(GOOD, query='TITLE:(dementia OR "Alzheimer\'s disease")', tier="groq", model="big")
+        seen = []
+
+        def fake(title, abstract="", env=None, **kw):
+            seen.append(dict(env or {}))
+            return dict(bad if len(seen) == 1 else good)
+        with mock.patch.object(pt.llm_triage, "triage", side_effect=fake):
+            text = pt.propose(FORM, helpers.OT_CONFIG, env=env, search=fake_search(), mesh=fake_mesh,
+                              today=datetime.date(2026, 11, 27), pause=0)
+        return seen, text
+
+    def test_retry_asks_the_next_provider(self):
+        # Live run 2026-11-27: the same small NIM model, told the problem, repeated it.
+        seen, text = self.retry_envs({"NVIDIA_API_KEY": "n", "GROQ_API_KEY": "g"})
+        self.assertIn("NVIDIA_API_KEY", seen[0])
+        self.assertNotIn("NVIDIA_API_KEY", seen[1])          # NIM skipped on the retry
+        self.assertIn("GROQ_API_KEY", seen[1])
+        self.assertIn("第一次由 nim", text)
+
+    def test_retry_with_a_single_provider_uses_it_again(self):
+        seen, _ = self.retry_envs({"NVIDIA_API_KEY": "n"})
+        self.assertIn("NVIDIA_API_KEY", seen[1])
+
     def test_bad_llm_query_is_not_proposed(self):
         text = run_propose(dict(GOOD, query='MESH_HEADING:"Stroke"'))
         self.assertIn("不合格", text)
