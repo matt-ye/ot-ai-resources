@@ -145,6 +145,36 @@ studies (unless the form allows them), studies of a different population, study 
 and everything the form says to exclude.""",
         "mesh_of": "P and I",
     },
+    "EXPERIMENT": {
+        # No question framework is dedicated to manipulated-condition (mechanism) experiments
+        # (checked 2026-11-27). Published reviews use the PICOS structure with I = the manipulated
+        # condition and C = a reference condition in the same participants, to set inclusion
+        # criteria -- e.g. Devecchi 2021, Syst Rev, doi:10.1186/s13643-021-01831-1.
+        "name": "實驗操弄與機制（PICOS 結構）",
+        "basis": "沒有專屬框架；已發表回顧以 PICOS 結構訂納入條件（I＝操弄條件，C＝同一批受試者的參照條件），例如 Devecchi 2021（Syst Rev）",
+        "fields": {"P 受試者（Participants）": "p", "I 操弄的條件（研究者給的作業或情境）": "i",
+                   "C 比較條件（選填）": "c", "O 測量指標（行為、動作學、腦波、眼動…）": "o",
+                   "S 設計": "design"},
+        "required": ["label", "p", "i"],
+        "search": "受試者與操弄的條件（O 是明確測量方式時可加進摘要檢索）", "screen": "C、O、S、排除",
+        "query_rule": """built from P (participants) and I (the condition or task the researchers manipulate,
+  e.g. task difficulty, dual-task, feedback type).
+- Split I into the TASK itself (e.g. handwriting OR writing, gait OR walking, reaching) searched
+  with TITLE:, and the MANIPULATION words (e.g. difficulty OR complexity OR "dual task" OR
+  "dual-task") searched with ABSTRACT: -- titles usually name the task but not the manipulation.
+  Three or more TITLE: blocks find almost nothing.
+- If O is a specific measurement method that authors name in the abstract (e.g. EEG, fNIRS,
+  kinematics, eye tracking, electromyography), you MAY add it as one ABSTRACT:(...) block.
+- Do NOT add treatment, therapy or training words, and do NOT put the comparison condition
+  in the query.""",
+        "rubric_rule": """Start with "KEEP": experimental studies in which the researchers MANIPULATE the
+condition I and compare it with C (name both), within the same participants when S says
+within-subject / repeated measures or crossover, in the Population P, measuring the outcomes
+under O (name them). Then "DROP": intervention trials that evaluate a treatment or training
+effect over time, observational studies without an experimental manipulation, study
+protocols, case reports, and everything the form says to exclude.""",
+        "mesh_of": "P and I",
+    },
 }
 
 

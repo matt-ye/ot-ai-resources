@@ -127,6 +127,11 @@ class Propose(unittest.TestCase):
         self.assertTrue(any("多字詞" in p for p in pt.query_problems("TITLE:(dementia OR Alzheimer's disease)")))
         self.assertEqual(pt.query_problems('TITLE:(dementia OR "Alzheimer\'s disease")'), [])
 
+    def test_missing_operator_between_blocks_is_caught(self):
+        # Live run 2026-11-27: TITLE:(...) ABSTRACT:(...) with no AND between the blocks.
+        self.assertTrue(any("運算子" in p for p in pt.query_problems('TITLE:(a OR b) ABSTRACT:(c OR d)')))
+        self.assertFalse(pt.missing_operator('TITLE:(a OR b) AND ABSTRACT:(c OR d)'))
+
     def test_one_retry_fixes_a_bad_query(self):
         bad = dict(GOOD, query="TITLE:(dementia OR Alzheimer's disease)", tier="groq", model="m")
         good = dict(GOOD, query='TITLE:(dementia OR "Alzheimer\'s disease")', tier="groq", model="m")
