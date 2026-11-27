@@ -42,7 +42,7 @@ AI 可以很快做完很多事。結果能不能相信，靠的是**計畫、查
 2. 不寫程式：用 PubMed 的 Create alert 開始（[手冊說明](handbook/README.md#自動檢索不寫程式也能開始)）。
 3. 想整理自己的資料：下載 [3 知識庫建置](3-knowledge-base/README.md)，照第一天的 SOP 做 30 分鐘。
 4. 想追文獻：照 [1 文獻雷達](1-literature-radar/README.md) 的 A 段，在自己電腦跑一次，不用金鑰。
-   想先看成品：這個 repo 自己也在跑雷達，每月 1 號用職能治療五個主題（中風上肢、中風職能治療、失智症職能治療、長者跌倒預防，以及用 PICO 表單新增的鏡像治療）檢索，結果開成標籤為 [`literature-radar` 的 Issue](https://github.com/matt-ye/ot-ai-resources/issues?q=label%3Aliterature-radar)。設定在 `.github/workflows/literature-radar.yml`，和範本只差在程式留在 `1-literature-radar/` 裡。想追新主題，可以填主題表單（Issues → New issue → 依問題類型選：介入效果 PICO、盛行率 CoCoPop、暴露與風險 PEO／PECO、診斷準確度 PIRD、測量特性 COSMIN、經驗與感受 PICo），AI 轉成檢索式並試搜，人核准才會套用（說明見 [1 文獻雷達](1-literature-radar/README.md) 的 C0）。
+   想先看成品：這個 repo 自己也在跑雷達，每月 1 號用職能治療的主題檢索（原本四個：中風上肢、中風職能治療、失智症職能治療、長者跌倒預防；之後用表單新增的，例如鏡像治療、失智症盛行率，主題清單以 `1-literature-radar/config/literature-watch.ot.json` 為準），結果開成標籤為 [`literature-radar` 的 Issue](https://github.com/matt-ye/ot-ai-resources/issues?q=label%3Aliterature-radar)。設定在 `.github/workflows/literature-radar.yml`，和範本只差在程式留在 `1-literature-radar/` 裡。想追新主題，可以填主題表單（Issues → New issue → 依問題類型選：介入效果 PICO、盛行率 CoCoPop、暴露與風險 PEO／PECO、診斷準確度 PIRD、測量特性 COSMIN、經驗與感受 PICo），AI 轉成檢索式並試搜，人核准才會套用（說明見 [1 文獻雷達](1-literature-radar/README.md) 的 C0）。
 
 ### 怎麼下載
 
