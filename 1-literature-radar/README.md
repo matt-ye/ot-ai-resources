@@ -18,12 +18,13 @@
 
 ```
 1-literature-radar/
-  scripts/        主程式（literature_watch.py）、AI 篩選（llm_triage.py）、重試（http_retry.py）
+  scripts/        主程式（literature_watch.py）、AI 篩選（llm_triage.py）、重試（http_retry.py）、金鑰檢查（check_keys.py）
   config/         關鍵字設定檔；README.md 逐欄解釋怎麼寫
   advanced/       進階流程：AI 讀事實、程式對照帳本（失智症專用示範；一般人不用看）
   examples/       示範報告與離線測試用的假資料
   tests/          離線測試
   .github/workflows/literature-radar.yml    GitHub 自動執行的排程範本
+  .github/workflows/check-keys.yml          金鑰檢查（只能手動執行）
   .env.example    金鑰欄位範本（只有變數名，沒有值）
 ```
 
@@ -80,6 +81,7 @@
 4. **確認 Issues 有開。** repo 的 Settings → General → Features → 「Issues」要打勾。
 5. **（選填）設定 AI 金鑰。** Settings → Secrets and variables → Actions → New repository secret。名稱要和 `.env.example` 一樣（步驟詳見根目錄 README「API 金鑰一律不上傳」；`NVIDIA_API_KEY`、`GROQ_API_KEY`，Cloudflare 兩個都要設：`CF_ACCOUNT_ID` 和 `CF_API_TOKEN`），值貼你的金鑰。
    - 不設也能跑，報告會寫「沒有找到任何金鑰」並全列。
+   - 設好之後，先照 D0 手動跑一次「Check AI keys」，確認每一家都能用。
 6. **手動跑第一次。** 點上方 Actions → 若看到「I understand my workflows, go ahead and enable them」就按下去 → 左邊點 Literature radar → 右邊 Run workflow → Run workflow。
    - 預期：約 1 到 3 分鐘後出現綠色打勾；Issues 分頁多一張「文獻雷達 2026-11：N 篇候選」，內容就是報告。
    - 沒看到：點進紅色打叉的那次執行，看哪一步失敗（見 D 段）。
@@ -125,12 +127,19 @@ AI 寫的查詢句一定要自己拿到 europepmc.org 測過，不要直接相�
 
 先看報告本身：它會自己說哪裡出問題。再看下面對應的段落。要看詳細紀錄時：GitHub 的 Actions 頁 → 點最近一次執行 → 點紅色或有警告的那一步展開。
 
+### D0 剛設好金鑰：每一家都能用嗎？
+- **為什麼要另外檢查**：雷達依序試 NVIDIA NIM → Groq → Cloudflare，第一家成功就不往下試。所以備援的金鑰平常不會被呼叫到，貼錯了也看不出來，要等第一家出問題那天才發現。重跑雷達也測不到：已經報過的論文會被去重，沒有新論文就不會呼叫 AI。
+- **GitHub 上**：Actions → 左邊點 **Check AI keys** → Run workflow。約 1 分鐘後點進這次執行，Summary 會有一張表：每一家寫「能用」（加上實際回答的模型）、「失敗」（加上錯誤類型）或「沒設定」。有設定的任何一家失敗，這次執行會是紅叉。
+- **自己電腦上**：在 `1-literature-radar` 資料夾打開終端機，貼上 `python scripts/check_keys.py`（Mac 用 `python3`）。它讀 `.env` 裡的金鑰，結果直接印在畫面上。
+- 送出的是一個虛構的論文題目，不含任何真實資料。金鑰與帳號 ID 不會出現在輸出裡；錯誤訊息裡若剛好含有，也會被遮成 `<CF_ACCOUNT_ID>` 這類名稱。
+- 「失敗」怎麼辦：先看說明欄。寫「只設了一半」就補上缺的那一個（Cloudflare 兩個都要設）；寫 `HTTPError` 多半是金鑰貼錯或過期，重新貼一次；其他情況見 D1。
+
 ### D1 免費模型下架了（報告出現「所有模型都失敗」）
 - **現象**：AI 那一行寫「【警告】已要求 AI 篩選，但所有模型都失敗」，報告仍然列出全部論文，只是沒有篩選。
 - **為什麼會發生**：免費模型常常無預告下架或改名。這個程式不把模型型號寫死，每次先問服務商「你現在有哪些模型」再挑；挑不到可用的，才會失敗。
 - **怎麼處理**（由簡到難）：
   1. 先重跑一次（可能只是暫時忙線，或超過免費額度的每分鐘上限）。
-  2. 檢查金鑰是否過期、是否貼錯。GitHub 上：Settings → Secrets 重新貼一次。
+  2. 檢查金鑰是否過期、是否貼錯：照 D0 跑一次金鑰檢查。要重貼的話：GitHub 上 Settings → Secrets。
   3. 多設另一家的金鑰。三家會依序嘗試，多一家就多一條退路。
   4. 到服務商網站的模型清單，看有哪些文字模型可用，把名稱釘住：GitHub 的 Settings → Secrets and variables → Actions → Variables，新增 `GROQ_MODEL`（或 `NIM_MODEL`、`CF_AI_MODEL`），值填完整模型名稱。本機則寫在 `.env`。
   5. 更根本的修法：打開 `scripts/llm_triage.py`，找 `_PREFER`，在對應服務商那一行加上新模型名稱的片段；可請 AI 協助。
