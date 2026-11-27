@@ -24,18 +24,24 @@ FRAMEWORKS = {
     "PICO": {
         "name": "介入效果（PICO）",
         "fields": {"P 對象（Population）": "p", "I 介入（Intervention）": "i",
-                   "C 對照（Comparison，選填）": "c", "O 結果指標（Outcome，選填但建議填）": "o", "研究設計": "design"},
+                   "C 對照（Comparison，選填）": "c", "O 結果指標（Outcome，選填但建議填）": "o",
+                   "T 時間（Time：追蹤期或介入期間，選填）": "t", "S 研究設計（Study design）": "design"},
+        "aliases": {"研究設計": "design"},          # forms before 2026-11-27 used this heading
         "required": ["label", "p", "i"],
-        "search": "P 與 I", "screen": "C、O、研究設計、排除",
+        "search": "P 與 I（S 是隨機試驗或系統性回顧時，可加一組研究設計詞）", "screen": "C、O、T、S、排除",
         "query_rule": """built ONLY from P (population) and I (intervention).
-- If the form asks for randomized trials or reviews, you MAY add one plain group such as
-  (randomized OR randomised OR "systematic review" OR "meta-analysis") without a field code.
-- Do NOT put outcomes, comparisons or exclusions in the query.""",
-        "rubric_rule": """Start with "KEEP" and name, in this order: the study designs, the population,
-the intervention, the comparison if given, and EVERY outcome measure listed under O
-(the query cannot filter by outcome, so the rubric is the only place outcomes are
-checked). Then "DROP": study protocols without results, case reports, studies whose
-population or body part differs from P, and everything the form says to exclude.""",
+- If S (study design) lists only randomized trials and/or systematic reviews, you MAY add one
+  plain group such as (randomized OR randomised OR "systematic review" OR "meta-analysis")
+  without a field code. For other designs (quasi-experimental, single-group pre-post,
+  crossover, single-subject) do NOT add design words: titles name them inconsistently.
+- Do NOT put outcomes, comparisons, time (T) or exclusions in the query.""",
+        "rubric_rule": """Start with "KEEP" and name, in this order: the study designs listed under S,
+the population, the intervention, the comparison if given, EVERY outcome measure listed
+under O (the query cannot filter by outcome, so the rubric is the only place outcomes are
+checked), and the time frame under T if given (e.g. minimum follow-up or intervention
+duration). Then "DROP": study protocols without results, case reports, studies whose
+population or body part differs from P, studies outside the time frame, and everything the
+form says to exclude.""",
         "mesh_of": "P and I",
     },
     "CoCoPop": {
@@ -61,16 +67,19 @@ to exclude.""",
     "PECO": {
         "name": "暴露與風險（PEO／PECO）",
         "fields": {"P 族群（Population）": "p", "E 暴露或危險因子（Exposure）": "e",
-                   "C 比較組（Comparison，選填；填了就是 PECO）": "c", "O 結果（Outcome）": "o", "研究設計": "design"},
+                   "C 比較組（Comparison，選填；填了就是 PECO）": "c", "O 結果（Outcome）": "o",
+                   "S 研究設計（Study design，可依題目調整）": "design"},
+        "aliases": {"研究設計": "design"},          # forms before 2026-11-27 used this heading
         "required": ["label", "p", "e", "o"],
-        "search": "P 與 E（O 是明確疾病或事件時也可放）", "screen": "C、O、研究設計、排除",
+        "search": "P 與 E（O 是明確疾病或事件時也可放）", "screen": "C、O、S、排除",
         "query_rule": """built from P (population) and E (exposure).
 - If O is a specific disease or event (e.g. dementia, falls, hip fracture) you MAY add it as a
   third block, but search it with ABSTRACT:(...) (three TITLE: blocks find almost nothing);
   if O is broad (e.g. "health", "function") leave it out.
 - Do NOT put the comparison in the query.""",
-        "rubric_rule": """Start with "KEEP": observational studies of the designs the form asks for (cohort,
-case-control, analytical cross-sectional) and systematic reviews or meta-analyses of them,
+        "rubric_rule": """Start with "KEEP": observational studies of exactly the designs listed under S
+(e.g. prospective or retrospective cohort, case-control, analytical cross-sectional; if S says
+不限, any observational design) and systematic reviews or meta-analyses of them,
 that examine the ASSOCIATION between the Exposure (compared with C if given) and the Outcome
 in the Population. Name E, C, O and P explicitly. Then "DROP": intervention trials (unless
 the form allows them), studies that do not analyse the exposure-outcome association, study
@@ -140,8 +149,17 @@ and everything the form says to exclude.""",
 
 
 def all_fields(fw):
+    """Headings on the current form (used to build and check the ISSUE_TEMPLATE files)."""
     f = dict(COMMON)
     f.update(FRAMEWORKS[fw]["fields"])
+    return f
+
+
+def readable_fields(fw):
+    """Headings the parser accepts: the current ones plus older names (aliases), so issues
+    opened before a heading was renamed still parse."""
+    f = all_fields(fw)
+    f.update(FRAMEWORKS[fw].get("aliases", {}))
     return f
 
 

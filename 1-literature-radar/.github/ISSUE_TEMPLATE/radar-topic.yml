@@ -9,7 +9,7 @@ body:
         填完送出後，約 1～3 分鐘會出現一則留言：AI 寫的檢索式、判準、試搜篇數與最新 5 篇題目。
         看過覺得可以，加上 **核准** 標籤，程式才會把它寫進設定檔（推到新分支，你再建 PR 合併）。
         **中文填寫即可。請不要填病人、學生或未發表研究的資料。**
-        P 與 I 會放進檢索式（求找得全）；C、O、研究設計、排除寫進 AI 的保留／篩掉判準（求篩得準）。
+        P 與 I 會放進檢索式（求找得全）；C、O、T（時間）、S（研究設計）、排除寫進 AI 的保留／篩掉判準（求篩得準）。S 只選隨機試驗或系統性回顧時，檢索式會多一組研究設計詞。
   - type: input
     id: label
     attributes:
@@ -45,16 +45,25 @@ body:
       label: "O 結果指標（Outcome，選填但建議填）"
       description: "檢索式不能用結果指標過濾，所以這一欄是 AI 篩選時最重要的依據。"
       placeholder: "FMA-UE、ARAT、日常生活功能"
+  - type: input
+    id: t
+    attributes:
+      label: "T 時間（Time：追蹤期或介入期間，選填）"
+      description: "追蹤期或介入期間。只寫進判準，不放進檢索式（標題很少寫追蹤時間）。"
+      placeholder: "介入至少 4 週；追蹤 3 個月以上"
   - type: dropdown
     id: design
     attributes:
-      label: "研究設計"
+      label: "S 研究設計（Study design）"
+      description: "PICOS 的 S。可複選。只選隨機試驗或系統性回顧時，檢索式會多一組研究設計詞；其他設計只寫進判準（標題對這些設計的寫法不一致）。"
       multiple: true
       options:
         - 隨機對照試驗
+        - 非隨機對照試驗或準實驗
+        - 單組前後測
+        - 交叉設計
+        - 單一受試者設計
         - 系統性回顧或統合分析
-        - 準實驗研究
-        - 觀察性研究
         - 不限
   - type: textarea
     id: exclude
