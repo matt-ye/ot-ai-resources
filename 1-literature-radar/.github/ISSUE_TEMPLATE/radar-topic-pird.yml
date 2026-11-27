@@ -1,0 +1,58 @@
+name: "雷達主題：診斷準確度（PIRD）"
+description: "某個檢測或篩檢工具準不準（敏感度、特異度）。例：MoCA 篩檢輕度認知障礙。"
+title: "[雷達主題·診斷準確度] "
+labels: ["雷達主題提案"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        填完送出後，約 1～3 分鐘會出現一則留言：AI 寫的檢索式、判準、試搜篇數與最新 5 篇題目。
+        看過覺得可以，加上 **核准** 標籤，程式才會把它寫進設定檔（推到新分支，你再建 PR 合併）。
+        **中文填寫即可。請不要填病人、學生或未發表研究的資料。**
+        指標檢測與目標診斷會放進檢索式；參考檢測、族群、排除寫進判準。**這類題目不加研究設計濾鏡**：診斷準確度研究的設計標示不一致，加了容易漏掉（Leeflang 2008）。
+  - type: input
+    id: label
+    attributes:
+      label: 主題名稱
+      description: 報告上顯示的名稱，短一點。
+      placeholder: "診斷準確度：…"
+    validations:
+      required: true
+  - type: textarea
+    id: p
+    attributes:
+      label: "P 族群（Population）"
+      description: "受測的族群與場域。"
+      placeholder: "社區或門診長者"
+  - type: textarea
+    id: i
+    attributes:
+      label: "I 指標檢測（Index test：要評估的工具或檢查）"
+      description: "要評估準確度的工具或檢查。"
+      placeholder: "蒙特利爾認知評估（MoCA）"
+    validations:
+      required: true
+  - type: textarea
+    id: r
+    attributes:
+      label: "R 參考檢測（Reference test：黃金標準，選填但建議填）"
+      description: "拿來比對的黃金標準。"
+      placeholder: "臨床診斷（依 DSM-5 或 Petersen 準則）"
+  - type: textarea
+    id: d
+    attributes:
+      label: "D 目標診斷（Diagnosis of interest）"
+      description: "要偵測的疾病或狀況。"
+      placeholder: "輕度認知障礙（MCI）"
+    validations:
+      required: true
+  - type: textarea
+    id: exclude
+    attributes:
+      label: 不要收的（選填）
+      placeholder: 動物研究、研究計畫書
+  - type: input
+    id: replace
+    attributes:
+      label: 要取代的現有主題代號（選填）
+      description: 想換掉現有主題才填，例如 stroke_occupational_therapy。留空＝新增一個主題。

@@ -1,5 +1,5 @@
-name: 雷達主題提案（PICO）
-description: 用 PICO 描述你想追蹤的新論文，AI 轉成檢索式並先試搜給你看；你核准後才會改設定。
+name: "雷達主題：介入效果（PICO）"
+description: "介入有沒有效（治療、訓練、復健方案）。用 PICO 描述，AI 轉成檢索式並先試搜。"
 title: "[雷達主題] "
 labels: ["雷達主題提案"]
 body:
@@ -9,46 +9,46 @@ body:
         填完送出後，約 1～3 分鐘會出現一則留言：AI 寫的檢索式、判準、試搜篇數與最新 5 篇題目。
         看過覺得可以，加上 **核准** 標籤，程式才會把它寫進設定檔（推到新分支，你再建 PR 合併）。
         **中文填寫即可。請不要填病人、學生或未發表研究的資料。**
-        P 與 I 會放進檢索式（求找得全）；O、研究設計、排除會寫進 AI 的保留／篩掉判準（求篩得準）。
+        P 與 I 會放進檢索式（求找得全）；C、O、研究設計、排除寫進 AI 的保留／篩掉判準（求篩得準）。
   - type: input
     id: label
     attributes:
       label: 主題名稱
       description: 報告上顯示的名稱，短一點。
-      placeholder: 中風上肢：鏡像治療
+      placeholder: "介入效果：…"
     validations:
       required: true
   - type: textarea
-    id: population
+    id: p
     attributes:
-      label: P 對象（Population）
-      description: 誰？可寫診斷、年齡、場域。
-      placeholder: 中風後上肢無力的成人
+      label: "P 對象（Population）"
+      description: "誰？可寫診斷、年齡、場域。"
+      placeholder: "中風後上肢無力的成人"
     validations:
       required: true
   - type: textarea
-    id: intervention
+    id: i
     attributes:
-      label: I 介入（Intervention）
-      description: 你想追的介入或治療。知道英文名稱可以一起寫。
-      placeholder: 鏡像治療（mirror therapy）
+      label: "I 介入（Intervention）"
+      description: "你想追的介入或治療。知道英文名稱可以一起寫。"
+      placeholder: "鏡像治療（mirror therapy）"
     validations:
       required: true
   - type: textarea
-    id: comparison
+    id: c
     attributes:
-      label: C 對照（Comparison，選填）
-      placeholder: 一般復健、假治療
+      label: "C 對照（Comparison，選填）"
+      placeholder: "一般復健、假治療"
   - type: textarea
-    id: outcome
+    id: o
     attributes:
-      label: O 結果指標（Outcome，選填但建議填）
-      description: 檢索式不能用結果指標過濾，所以這一欄是 AI 篩選時最重要的依據。
-      placeholder: FMA-UE、ARAT、日常生活功能
+      label: "O 結果指標（Outcome，選填但建議填）"
+      description: "檢索式不能用結果指標過濾，所以這一欄是 AI 篩選時最重要的依據。"
+      placeholder: "FMA-UE、ARAT、日常生活功能"
   - type: dropdown
     id: design
     attributes:
-      label: 研究設計
+      label: "研究設計"
       multiple: true
       options:
         - 隨機對照試驗
@@ -60,7 +60,7 @@ body:
     id: exclude
     attributes:
       label: 不要收的（選填）
-      placeholder: 動物研究、只看腦影像的研究、研究計畫書
+      placeholder: 動物研究、研究計畫書
   - type: input
     id: replace
     attributes:

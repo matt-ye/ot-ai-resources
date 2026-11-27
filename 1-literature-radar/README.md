@@ -18,15 +18,15 @@
 
 ```
 1-literature-radar/
-  scripts/        主程式（literature_watch.py）、AI 篩選（llm_triage.py）、重試（http_retry.py）、金鑰檢查（check_keys.py）、PICO 表單轉主題（pico_topic.py）
+  scripts/        主程式（literature_watch.py）、AI 篩選（llm_triage.py）、重試（http_retry.py）、金鑰檢查（check_keys.py）、表單轉主題（pico_topic.py；各框架規則在 topic_frameworks.py）
   config/         關鍵字設定檔；README.md 逐欄解釋怎麼寫
   advanced/       進階流程：AI 讀事實、程式對照帳本（失智症專用示範；一般人不用看）
   examples/       示範報告與離線測試用的假資料
   tests/          離線測試
   .github/workflows/literature-radar.yml    GitHub 自動執行的排程範本
   .github/workflows/check-keys.yml          金鑰檢查（只能手動執行）
-  .github/workflows/radar-topic-*.yml       PICO 表單：試搜提案、核准後套用（見 C0）
-  .github/ISSUE_TEMPLATE/radar-topic.yml    PICO 表單本身
+  .github/workflows/radar-topic-*.yml       主題表單：試搜提案、核准後套用（見 C0）
+  .github/ISSUE_TEMPLATE/radar-topic*.yml   六種問題框架的主題表單（見 C0）
   .env.example    金鑰欄位範本（只有變數名，沒有值）
 ```
 
@@ -95,12 +95,27 @@
 
 ## C 換成你的題目
 
-**最簡單：填 PICO 表單（不用碰 JSON）。** 見下方「C0」。想自己改設定檔，照 1～5 步。
+**最簡單：填主題表單（不用碰 JSON）。** 見下方「C0」。想自己改設定檔，照 1～5 步。
 
-### C0 用 PICO 表單新增主題（GitHub 上）
+### C0 用表單新增主題（GitHub 上）
 
-1. **（人★）填表單。** repo 上方 Issues → New issue → 選「雷達主題提案（PICO）」。中文填即可：主題名稱、P 對象、I 介入（必填），C 對照、O 結果指標、研究設計、不要收的（選填）。
-   - P 與 I 會放進檢索式，求「找得全」；O、研究設計、排除會寫進這個主題自己的 AI 判準，求「篩得準」。只搜標題時把四項全部用 AND 連起來，幾乎會找不到東西。
+**先選對表單**：不同的問題要用不同的框架描述；用錯框架，表單會逼你硬填不存在的欄位（例如盛行率題目沒有「介入」）。
+
+| 你想追的問題 | 表單 | 放進檢索式（求找得全） | 只寫進判準（求篩得準） |
+|---|---|---|---|
+| 某介入、治療有沒有效 | 介入效果（PICO） | P 對象、I 介入 | C 對照、O 結果、研究設計 |
+| 某狀況有多少人有（盛行率、發生率） | 盛行率／發生率（CoCoPop） | 病況、族群，加流行病學詞 | 情境（國家、場域、年代）、指標 |
+| 某暴露或危險因子和結果有沒有關聯 | 暴露與風險（PEO／PECO） | P 族群、E 暴露（O 是明確疾病或事件時也放） | C 比較組、O 結果、研究設計 |
+| 某檢測或篩檢工具準不準 | 診斷準確度（PIRD） | 指標檢測、目標診斷 | 參考檢測、族群；**不加研究設計濾鏡** |
+| 評估工具的信度、效度、反應性 | 測量特性（COSMIN） | 構念、族群、工具類型、測量特性詞，**四項都放** | 要看的測量特性 |
+| 當事人的經驗、感受、意義 | 經驗與感受（PICo） | 族群、關注的現象 | 情境、研究類型 |
+
+為什麼這樣分：檢索式只放作者一定會寫在題名、摘要的元素，對照與結果通常不檢索（Cochrane Handbook 4.4.2）；診斷準確度研究不建議加研究設計濾鏡（Leeflang 2008）；測量特性回顧要四個要素都檢索（COSMIN，Prinsen 2018）；盛行率用 CoCoPop、經驗用 PICo、暴露用 PEO 出自 JBI 的回顧方法學（Munn 2018 整理成十型問題）。其他框架（範疇回顧的 PCC、預後的 PFO、服務與政策的 SPICE／ECLIPSE 等）之後再加。
+
+
+1. **（人★）填表單。** repo 上方 Issues → New issue → 依上表選一張「雷達主題：…」表單。中文填即可，必填欄位有標記。
+   - 只搜標題時把所有元素全部用 AND 連起來，幾乎會找不到東西，所以每張表單只把上表「放進檢索式」那幾項轉成檢索式，其餘寫進這個主題自己的 AI 判準。
+   - 程式依表單的欄位判斷是哪一種框架（不看標題），留言會寫出這個框架哪些放進檢索式、哪些放進判準。
 2. **（LLM＋程式）約 1～3 分鐘後出現一則留言。** 內容有：AI 寫的檢索式、判準、AI 對檢索式的說明、試搜篇數（最近 45 天、最近一年）與最新 5 篇題目，以及 AI 建議的 MeSH 詞是否真的存在（向 NCBI 查證，只給你參考同義詞，不放進檢索式）。
    - 檢索式只允許 `TITLE:`、`ABSTRACT:` 欄位，括號與引號要成對；不合格的不會被提出。
    - 最近一年 0 篇、或 45 天就超過 40 篇，留言會明白警告。Europe PMC 語法錯時不會報錯，只會回 0 篇，所以 0 篇一定要看。
