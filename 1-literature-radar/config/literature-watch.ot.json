@@ -1,5 +1,5 @@
 {
-  "_說明": "職能治療（OT）四主題的現成設定。每個欄位的白話解釋見同資料夾的 README.md。底線開頭的鍵（例如這一行）是註解，程式會忽略。",
+  "_說明": "職能治療（OT）主題的現成設定（原本四個，第五個起由 PICO 表單新增）。每個欄位的白話解釋見同資料夾的 README.md。底線開頭的鍵（例如這一行）是註解，程式會忽略。",
   "days_window": 45,
   "max_per_topic": 6,
   "intro": "職能治療系期刊討論會的新論文候選（Europe PMC，只搜標題）。**只是候選，請人讀過再決定**；AI 只負責保留或篩掉。",
@@ -24,6 +24,13 @@
       "id": "falls_prevention_older_adults",
       "label": "長者跌倒預防（試驗／系統性回顧）",
       "query": "TITLE:(fall OR falls) AND TITLE:prevention AND TITLE:(older OR elderly OR \"community-dwelling\") AND (randomized OR randomised OR \"systematic review\" OR \"meta-analysis\")"
+    },
+    {
+      "id": "stroke_upper_limb_mirror_therapy",
+      "label": "中風上肢：鏡像治療",
+      "query": "TITLE:(\"stroke\" OR \"cerebrovascular accident\") AND TITLE:(\"mirror therapy\") AND (randomized OR randomised OR \"systematic review\" OR \"meta-analysis\")",
+      "rubric": "KEEP randomized controlled trials, systematic reviews, or meta-analyses involving adults with post-stroke upper limb paralysis receiving mirror therapy, assessing FMA-UE, ARAT, and daily living function. DROP study protocols without results, case reports, animal studies, or studies focusing only on brain imaging.",
+      "_來源": "PICO 表單（LLM 轉換、人核准）"
     }
   ]
 }

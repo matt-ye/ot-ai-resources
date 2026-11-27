@@ -1,8 +1,8 @@
-# 本課程 repo 自己的文獻雷達：每月 1 號用 OT 四主題檢索新論文，結果開成一張 Issue。
+# 本課程 repo 自己的文獻雷達：每月 1 號用 OT 主題檢索新論文，結果開成一張 Issue。
 #
 # 和 1-literature-radar/.github/workflows/literature-radar.yml（給你複製的範本）只差兩處：
 #   ① 程式與設定留在 1-literature-radar/ 裡，所以兩個執行步驟都加了 working-directory；
-#   ② 設定檔直接用現成的 config/literature-watch.ot.json（中風上肢、中風 OT、失智症 OT、長者跌倒預防）。
+#   ② 設定檔直接用現成的 config/literature-watch.ot.json（原本四個主題，加上用 PICO 表單新增的）。
 #
 # - 沒有設定任何金鑰也能跑：會列出全部候選、不做 AI 篩選，報告會明寫這件事。
 # - 金鑰放在 repo 的 Settings -> Secrets and variables -> Actions -> Secrets，不要寫進任何檔案。

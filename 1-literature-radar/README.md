@@ -47,7 +47,7 @@
    - 沒看到：把整段輸出貼給 AI 請它看；通常是 Python 版本太舊。
 4. **離線看一份報告**（用存好的假資料，不連網）。貼上：
    `python scripts/literature_watch.py --config config/literature-watch.ot.json --fixture examples/mock_epmc_response.json`
-   - 預期：螢幕印出中文報告，有四個主題、最後一行「共 9 篇候選待讀」，並提到 1 篇重複紀錄被略過。
+   - 預期：螢幕印出中文報告，有五個主題（第五個在假資料裡沒有論文，所以是空的）、最後一行「共 9 篇候選待讀」，並提到 1 篇重複紀錄被略過。
    - 沒看到：確認終端機位置在專案根目錄（有 `scripts` 資料夾的那一層）。
 5. **真的去檢索一次**（會連網到 Europe PMC，不用金鑰）。貼上：
    `python scripts/literature_watch.py --config config/literature-watch.ot.json --seen-file seen.json --out report.md`
