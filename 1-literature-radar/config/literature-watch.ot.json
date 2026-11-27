@@ -24,6 +24,13 @@
       "id": "falls_prevention_older_adults",
       "label": "長者跌倒預防（試驗／系統性回顧）",
       "query": "TITLE:(fall OR falls) AND TITLE:prevention AND TITLE:(older OR elderly OR \"community-dwelling\") AND (randomized OR randomised OR \"systematic review\" OR \"meta-analysis\")"
+    },
+    {
+      "id": "stroke_upper_limb_mirror_therapy",
+      "label": "中風上肢：鏡像治療",
+      "query": "TITLE:(\"stroke\" OR \"cerebrovascular accident\") AND TITLE:(\"mirror therapy\") AND (randomized OR randomised OR \"systematic review\" OR \"meta-analysis\")",
+      "rubric": "KEEP randomized controlled trials, systematic reviews, or meta-analyses involving adults with post-stroke upper limb paralysis receiving mirror therapy, assessing FMA-UE, ARAT, and daily living function. DROP study protocols without results, case reports, animal studies, or studies focusing only on brain imaging.",
+      "_來源": "PICO 表單（LLM 轉換、人核准）"
     }
   ]
 }
