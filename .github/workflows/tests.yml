@@ -1,0 +1,67 @@
+# 自動測試：每次推送到 main、每個 PR，都把 repo 裡所有的測試跑一遍。
+#
+# 結果在哪裡看：PR 頁下方的檢查區（綠勾＝全過，紅叉＝有一項失敗，點進去看是哪一步），
+# 或 repo 上方的 Actions 分頁。
+#
+# - 不需要任何金鑰；只讀程式碼。
+# - 測試都用假資料，不連外網。
+# - 1-literature-radar/.github/ 裡的雷達 workflow 是給你複製用的範本，GitHub 只執行
+#   repo 根目錄 .github/workflows/ 底下的檔案，所以它不會在這裡跑。
+
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch: {}       # 也可以在 Actions 頁面手動按 Run workflow
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} · Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false        # 一個環境失敗，其他環境照跑，才看得出是不是只有某個系統有問題
+      matrix:
+        # 3.9 是 README 寫的最低版本。ubuntu-latest 已換成 26.04，裝不到 3.9，
+        # 所以 Linux 的 3.9 固定用 ubuntu-24.04（2026-11-27 實測）。
+        include:
+          - { os: ubuntu-latest,  python: '3.12' }
+          - { os: ubuntu-24.04,   python: '3.9' }
+          - { os: windows-latest, python: '3.12' }
+          - { os: windows-latest, python: '3.9' }
+    env:
+      PYTHONIOENCODING: utf-8   # Windows 主控台預設不是 UTF-8，中文輸出會變亂碼
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: ① 文獻雷達
+        working-directory: 1-literature-radar
+        run: python -m unittest discover -s tests -v
+
+      - name: ① 文獻雷達（進階：讀成事實、對照帳本）
+        working-directory: 1-literature-radar/advanced
+        run: python -m unittest discover -s tests -v
+
+      - name: ② 萃取管線：取材（check_doi、check_file）
+        working-directory: 2-extraction-pipeline/03_sources
+        run: python -m unittest discover -s tests -v
+
+      - name: ② 萃取管線：開發（萃取結果格式檢查）
+        working-directory: 2-extraction-pipeline/04_extract
+        run: python -m unittest discover -s tests -v
+
+      - name: ② 萃取管線：驗證（兩個模型逐格比對）
+        working-directory: 2-extraction-pipeline/05_verify
+        run: python -m unittest discover -s tests -v
+
+      - name: ③ 知識庫：存檔後檢查會不會擋下缺欄位的卡
+        working-directory: 3-knowledge-base/starter-vault
+        run: python scripts/hook_selftest.py
