@@ -80,9 +80,10 @@ class FailedSearch(unittest.TestCase):
         err = urllib.error.URLError("no network")
         with mock.patch.object(lw, "epmc_search", side_effect=err):
             report, _ = helpers.run_main(["--config", helpers.OT_CONFIG])
-        self.assertIn("【不完整】4 個主題裡有 4 個無法檢查", report)
+        n = len(lw.load_config(helpers.OT_CONFIG)["topics"])
+        self.assertIn(f"【不完整】{n} 個主題裡有 {n} 個無法檢查", report)
         self.assertIn("【無法檢查】URLError", report)
-        self.assertIn("檢查了 0 / 4", report)
+        self.assertIn(f"檢查了 0 / {n}", report)
         self.assertNotIn("沒有符合的論文", report)
 
     def test_failures_are_counted_for_the_workflow(self):
@@ -91,7 +92,8 @@ class FailedSearch(unittest.TestCase):
         with mock.patch.object(lw, "epmc_search", side_effect=err):
             helpers.run_main(["--config", helpers.OT_CONFIG], env={"GITHUB_OUTPUT": out})
         with open(out, encoding="utf-8") as f:
-            self.assertIn("n_failed=4", f.read())
+            n = len(lw.load_config(helpers.OT_CONFIG)["topics"])
+            self.assertIn(f"n_failed={n}", f.read())
 
     def test_unreadable_issue_history_is_flagged(self):
         env = {"GITHUB_REPOSITORY": "a/b", "GH_TOKEN": "x"}

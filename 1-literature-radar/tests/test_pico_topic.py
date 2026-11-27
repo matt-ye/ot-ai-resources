@@ -154,6 +154,9 @@ class Apply(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.dir)
 
+    def count0(self):
+        return len(pt.lw.load_config(helpers.OT_CONFIG)["topics"])
+
     def load(self):
         with open(self.cfg, encoding="utf-8") as f:
             return json.load(f)
@@ -163,7 +166,7 @@ class Apply(unittest.TestCase):
         self.assertIn("新增", msg)
         t = self.load()["topics"][-1]
         self.assertEqual((t["id"], t["rubric"]), ("stroke_mirror_therapy", GOOD["rubric"]))
-        self.assertEqual(len(self.load()["topics"]), 5)
+        self.assertEqual(len(self.load()["topics"]), self.count0() + 1)
         pt.lw.load_config(self.cfg)                       # still a valid radar config
 
     def test_same_id_twice_gets_a_suffix(self):
@@ -177,14 +180,14 @@ class Apply(unittest.TestCase):
         msg = pt.apply(run_propose(body=body), self.cfg)
         self.assertIn("取代", msg)
         ids = [t["id"] for t in self.load()["topics"]]
-        self.assertEqual(len(ids), 4)
+        self.assertEqual(len(ids), self.count0())
         self.assertEqual(self.load()["topics"][ids.index("stroke_occupational_therapy")]["label"], "中風上肢：鏡像治療")
 
     def test_tampered_proposal_is_rejected(self):
         text = run_propose().replace('TITLE:(stroke)', 'MESH_HEADING:(stroke)')
         with self.assertRaises(ValueError):
             pt.apply(text, self.cfg)
-        self.assertEqual(len(self.load()["topics"]), 4)    # file untouched
+        self.assertEqual(len(self.load()["topics"]), self.count0())    # file untouched
 
     def test_no_proposal_in_comment(self):
         with self.assertRaises(ValueError):
@@ -195,7 +198,7 @@ class Apply(unittest.TestCase):
             raise OSError("network down")
         with self.assertRaises(ValueError):
             pt.apply(run_propose(search=broken), self.cfg)
-        self.assertEqual(len(self.load()["topics"]), 4)
+        self.assertEqual(len(self.load()["topics"]), self.count0())
 
 
 class FoundInReview(unittest.TestCase):

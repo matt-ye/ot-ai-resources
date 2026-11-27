@@ -17,11 +17,11 @@ class ShippedConfigs(unittest.TestCase):
                 cfg = lw.load_config(p)
                 self.assertTrue(cfg["topics"])
 
-    def test_ot_config_has_four_topics_with_unique_ids(self):
+    def test_ot_config_has_topics_with_unique_ids(self):
         cfg = lw.load_config(helpers.OT_CONFIG)
         ids = [t["id"] for t in cfg["topics"]]
-        self.assertEqual(len(ids), 4)
-        self.assertEqual(len(set(ids)), 4)
+        self.assertGreaterEqual(len(ids), 4)             # the four original OT topics, plus any added later
+        self.assertEqual(len(set(ids)), len(ids))
 
     def test_underscore_keys_are_comments(self):
         cfg = lw.load_config(os.path.join(helpers.ROOT, "config", "literature-watch.template.json"))
