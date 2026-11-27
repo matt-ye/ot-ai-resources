@@ -94,6 +94,27 @@ class EachFramework(unittest.TestCase):
         finally:
             shutil.rmtree(d)
 
+    def test_old_design_heading_still_parses(self):
+        # Forms before 2026-11-27 had "### 研究設計"; it is now "S 研究設計（…）".
+        for fw, body in (("PICO", "### P 對象（Population）\n\np\n\n### I 介入（Intervention）\n\ni\n\n### 研究設計\n\n隨機對照試驗\n"),
+                         ("PECO", "### P 族群（Population）\n\np\n\n### E 暴露或危險因子（Exposure）\n\ne\n\n"
+                                  "### O 結果（Outcome）\n\no\n\n### 研究設計\n\n病例對照研究\n")):
+            form = pt.parse_form("### 主題名稱\n\nx\n\n" + body)
+            self.assertEqual(form["framework"], fw)
+            self.assertTrue(form["design"], fw)
+
+    def test_pico_time_and_design_go_to_the_rubric(self):
+        spec = tf.FRAMEWORKS["PICO"]
+        self.assertIn("time (T)", spec["query_rule"])            # T is never searched
+        self.assertIn("under T", spec["rubric_rule"])
+        self.assertIn("under S", spec["rubric_rule"])
+        form = pt.parse_form(sample_body("PICO"))
+        self.assertEqual(form["t"], "範例 t")
+        self.assertIn("T 時間", pt.form_as_text(form))
+
+    def test_peco_design_follows_s(self):
+        self.assertIn("listed under S", tf.FRAMEWORKS["PECO"]["rubric_rule"])
+
     def test_pico_still_detected_from_old_forms(self):
         form = pt.parse_form("### 主題名稱\n\nx\n\n### P 對象（Population）\n\np\n\n### I 介入（Intervention）\n\ni\n")
         self.assertEqual(form["framework"], "PICO")

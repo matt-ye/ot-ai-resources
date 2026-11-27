@@ -47,7 +47,7 @@ TOO_MANY_45D = 40          # more than this in 45 days: the monthly report would
 # Form headings per framework live in topic_frameworks.py (keep in sync with the ISSUE_TEMPLATE
 # files; a test checks it). FIELDS is the PICO set, kept for older callers.
 FIELDS = tf.all_fields("PICO")
-ALL_HEADINGS = {h for fw in tf.FRAMEWORKS for h in tf.all_fields(fw)}
+ALL_HEADINGS = {h for fw in tf.FRAMEWORKS for h in tf.readable_fields(fw)}
 EMPTY = {"", "_No response_", "None"}
 
 SYSTEM_HEAD = """You turn a researcher's {name} form into ONE topic for a monthly literature radar
@@ -100,7 +100,7 @@ def parse_form(body):
     lines = (body or "").replace("\r\n", "\n").split("\n")
     seen = {m.group(1).strip() for m in (re.match(r"^###\s+(.+?)\s*$", ln) for ln in lines) if m}
     fw = tf.detect(seen & ALL_HEADINGS)
-    fields = tf.all_fields(fw)
+    fields = tf.readable_fields(fw)
     out = {v: "" for v in fields.values()}
     out["framework"] = fw
     current = None
