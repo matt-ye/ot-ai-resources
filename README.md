@@ -33,6 +33,7 @@ AI 可以很快做完很多事。結果能不能相信，靠的是**計畫、查
 
 顏色代表誰在做：**灰色是程式**（規則固定，每次結果一樣）、**藍色是 LLM**（會讀、會寫，也會錯）、**橘色是人**（★ 一定要人看過）。
 單段放大版：[規劃](diagrams/04_flow_1_plan.png)、[研究](diagrams/04_flow_2_research.png)、[取材](diagrams/04_flow_3_sources.png)、[開發](diagrams/04_flow_4_develop.png)、[驗證](diagrams/04_flow_5_verify.png)、[知識庫](diagrams/04_flow_6_knowledge_base.png)、[迭代](diagrams/04_flow_7_iterate.png)。
+文獻雷達用表單新增主題的流程另畫一張：[主題表單流程](diagrams/05_topic_form_flow.png)（對應 ① 規劃第一步、② 研究整段、③ 取材前段；說明在[文獻雷達 C0](1-literature-radar/README.md#c0-用表單新增主題github-上)）。
 
 這是建議流程。講座案例（千篇論文萃取）當時沒有全部做到，有些做法是事後整理出來的。
 
