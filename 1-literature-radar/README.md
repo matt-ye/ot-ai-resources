@@ -26,7 +26,7 @@
   .github/workflows/literature-radar.yml    GitHub 自動執行的排程範本
   .github/workflows/check-keys.yml          金鑰檢查（只能手動執行）
   .github/workflows/radar-topic-*.yml       主題表單：試搜提案、核准後套用（見 C0）
-  .github/ISSUE_TEMPLATE/radar-topic*.yml   六種問題框架的主題表單（見 C0）
+  .github/ISSUE_TEMPLATE/radar-topic*.yml   七種問題框架的主題表單（見 C0）
   .env.example    金鑰欄位範本（只有變數名，沒有值）
 ```
 
@@ -112,6 +112,10 @@
 | 同一組人在研究者操弄的不同條件下表現如何（機制研究，例如不同難度作業、單一與雙重任務） | 實驗操弄與機制（PICOS 結構） | 受試者、操弄的條件（測量方式明確時加摘要檢索） | 比較條件、測量指標、設計 |
 
 為什麼這樣分：檢索式只放作者一定會寫在題名、摘要的元素，對照與結果通常不檢索（Cochrane Handbook 4.4.2）；診斷準確度研究不建議加研究設計濾鏡（Leeflang 2008）；測量特性回顧要四個要素都檢索（COSMIN，Prinsen 2018）；盛行率用 CoCoPop、經驗用 PICo、暴露用 PEO 出自 JBI 的回顧方法學（Munn 2018 整理成十型問題）。「實驗操弄與機制」：沒有專門給這類研究的問題框架（2026-11-27 查過）；已發表的回顧用 PICOS 的結構訂納入條件，I 是操弄的條件、C 是同一批受試者的參照條件，例如 Devecchi 2021（Syst Rev，doi:10.1186/s13643-021-01831-1）。和 PECO 的差別在條件是研究者操弄的；PECO 的原始論文（Morgan 2018）講的是非刻意的暴露。KAP（知識、態度、行為）調查沒有專屬框架，已發表回顧的寫法不一致；問比例的用 CoCoPop，探索、盤點型的較適合範疇回顧的 PCC（尚無表單）。其他框架（範疇回顧的 PCC、預後的 PFO、服務與政策的 SPICE／ECLIPSE 等）之後再加。
+
+**整個流程一張圖**（上方色帶對應課程整張圖：① 規劃第一步、② 研究整段、③ 取材前段；虛線是走回頭路的地方）：
+
+![主題表單流程](https://raw.githubusercontent.com/matt-ye/ot-ai-resources/main/diagrams/05_topic_form_flow.png)
 
 
 1. **（人★）填表單。** repo 上方 Issues → New issue → 依上表選一張「雷達主題：…」表單。中文填即可，必填欄位有標記。

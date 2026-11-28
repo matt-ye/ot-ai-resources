@@ -203,6 +203,97 @@ def stage(i):
     return page(name, head + f'<div class="row">{cells}</div>', W), W, 80 + 24 + ch + 72
 
 
+# Topic-form flow (radar issue forms). Separate from the course flow; the band above each row
+# says which part of the course flow it stands for.
+FORM_STEPS = [
+    ("H", "選表單\n依問題類型（7 種）", ["GitHub Issues"]),
+    ("H", "用中文填欄位", []),
+    ("P", "依欄位標題\n認出是哪種框架", []),
+    ("L", "寫檢索式\n與保留／篩掉判準", ["NVIDIA NIM", "Groq", "Cloudflare"]),
+    ("P", "檢查格式\n欄位碼、引號\n括號、AND", []),
+    ("P", "試搜、查 MeSH 詞\n回一則留言", ["Europe PMC", "NCBI MeSH"]),
+    ("H", "讀留言\n可以就加「核准」", []),
+    ("P", "寫進設定檔\n推新分支\n留 PR 連結", ["GitHub Actions"]),
+    ("H", "開 PR\n測試通過後合併", ["GitHub"]),
+    ("P", "下個月雷達\n開始用新主題", ["Europe PMC"]),
+]
+# per row: (first column, number of columns, text, group)
+FORM_BANDS = [
+    [(0, 2, "① 規劃 第一步：定題目與檢索範圍", "think"), (2, 3, "② 研究：拆題目、寫交辦單、抽驗", "think")],
+    [(0, 2, "② 研究（續）：查資料、人決定採納", "think"), (2, 2, "借用 ④ 開發：Issue → PR", "make"),
+     (4, 1, "③ 取材 前段", "make")],
+]
+
+
+def topic_form_flow():
+    cw, ch, ag, lc, size = 250, 250, 36, 50, 25    # card w/h, arrow gap, left channel for the loop line
+    bh = 50                                        # band height
+    y_b1, y_r1 = 0, 150                            # band 1, row 1 (loop 1 runs between them)
+    y_gap_loop, y_gap_link = 430, 482              # loop 2 and the row link cross the gap at these heights
+    y_b2, y_r2 = 520, 590
+    y_bottom = y_r2 + ch + 38                      # loop 2 runs under row 2
+    H = y_bottom + 40
+    inner = lc + 5 * cw + 4 * ag
+
+    def x(i):
+        return lc + i * (cw + ag)
+
+    def cx(i):
+        return x(i) + cw / 2
+
+    parts = []
+    for row, y in ((0, y_b1), (1, y_b2)):
+        for col, n, text, g in FORM_BANDS[row]:
+            f, b, c = GROUP[g]
+            parts.append(f'<div class="box" style="position:absolute;left:{x(col)}px;top:{y}px;width:{n * cw + (n - 1) * ag}px;'
+                         f'height:{bh}px;background:{f};border-color:{b};color:{c};font-size:21px;border-width:4px">{esc(text)}</div>')
+    for k, step in enumerate(FORM_STEPS):
+        row, col = divmod(k, 5)
+        b = WHO[step[0]][2]
+        parts.append(f'<div style="position:absolute;left:{x(col)}px;top:{(y_r1, y_r2)[row]}px">{card(step, cw, ch, size)}'
+                     f'<div style="position:absolute;right:12px;top:10px;width:40px;height:40px;border-radius:50%;background:#fff;'
+                     f'border:4px solid {b};color:{b};font-size:22px;font-weight:700;display:flex;align-items:center;'
+                     f'justify-content:center">{k + 1}</div></div>')
+
+    grey, orange = "#455A64", WHO["H"][2]
+
+    def head(px, py, d, colour):                   # arrowhead whose tip is at (px, py), pointing d
+        pts = {"r": f"{px-16} {py-12} {px} {py} {px-16} {py+12}", "d": f"{px-12} {py-16} {px} {py} {px+12} {py-16}",
+               "u": f"{px-12} {py+16} {px} {py} {px+12} {py+16}"}[d]
+        return f'<polygon points="{pts}" fill="{colour}"/>'
+
+    def label(lx, ly, text, colour, w):
+        return (f'<rect x="{lx - w/2}" y="{ly - 22}" width="{w}" height="40" rx="8" fill="#fff"/>'
+                f'<text x="{lx}" y="{ly + 7}" text-anchor="middle" font-size="21" font-weight="700" fill="{colour}" '
+                f'font-family="{FONT}">{esc(text)}</text>')
+
+    svg = []
+    for row, y in ((0, y_r1), (1, y_r2)):          # arrows inside each row
+        for col in range(4):
+            x1, x2, ym = x(col) + cw + 3, x(col + 1) - 3, y + ch / 2
+            svg.append(f'<line x1="{x1}" y1="{ym}" x2="{x2 - 14}" y2="{ym}" stroke="{grey}" stroke-width="6"/>' + head(x2, ym, "r", grey))
+    # row 1 -> row 2: from step 5 down, left, into the band above step 6
+    svg.append(f'<path d="M{cx(4)} {y_r1 + ch + 2} V{y_gap_link} H{cx(0)} V{y_b2 - 16}" fill="none" stroke="{grey}" stroke-width="6"/>'
+               + head(cx(0), y_b2 - 2, "d", grey))
+    # loop 1: format check fails -> the next provider rewrites once (step 5 back to step 4)
+    ly = y_r1 - 30                               # line; its label sits above it
+    svg.append(f'<path d="M{cx(4) - 40} {y_r1 - 2} V{ly} H{cx(3) + 40} V{y_r1 - 16}" fill="none" stroke="{grey}" '
+               f'stroke-width="5" stroke-dasharray="14 9"/>' + head(cx(3) + 40, y_r1 - 2, "d", grey)
+               + label((cx(3) + cx(4)) / 2, ly - 38, "格式不過：換下一家模型重寫（一次）", grey, 380))
+    # loop 2: not satisfied -> edit the issue, rerun from step 3 (step 7 back to step 3, round the left side)
+    by = y_bottom
+    svg.append(f'<path d="M{cx(1)} {y_r2 + ch + 2} V{by} H{lc / 2} V{y_gap_loop} H{cx(2)} V{y_r1 + ch + 16}" fill="none" '
+               f'stroke="{orange}" stroke-width="5" stroke-dasharray="14 9"/>' + head(cx(2), y_r1 + ch + 2, "u", orange)
+               + label((lc / 2 + cx(1)) / 2 + 60, by, "不滿意：改 issue 內容，從第 3 步重跑", orange, 400))
+    overlay = f'<svg width="{inner}" height="{H}" style="position:absolute;left:0;top:0;overflow:visible">{"".join(svg)}</svg>'
+    head_html = ('<h1>主題表單：從填表到雷達開始用新主題</h1>'
+                 '<p class="sub">上方色帶是對應課程整張圖的哪一段；虛線是走回頭路的地方。要選哪一張表單，看文獻雷達 README 的 C0 對照表。</p>')
+    body = (head_html + f'<div style="margin-bottom:26px">{legend()}</div>'
+            f'<div style="position:relative;width:{inner}px;height:{H}px">{overlay}{"".join(parts)}</div>')
+    W = inner + 72
+    return page("主題表單流程", body, W), W, H + 72 + 136
+
+
 def main():
     browser = next((b for b in BROWSERS if os.path.exists(b)), None)
     if not browser:
@@ -210,6 +301,7 @@ def main():
     jobs = {"01_cycle": cycle(), "02_resources": resource_map(), "03_flow_overview": overview()}
     for i, (name, _, _) in enumerate(STAGES):
         jobs[f"04_flow_{i + 1}_" + SLUG[i]] = stage(i)
+    jobs["05_topic_form_flow"] = topic_form_flow()
     for stem, (doc, w, h) in jobs.items():
         p = OUT / f"{stem}.html"
         p.write_text(doc, encoding="utf-8")
